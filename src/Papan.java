@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Papan{
     private int baris;
     private int kolom;
-    // private ArrayList<Piece> pieces;
+    private ArrayList<Piece> pieces;
     private char board[][];
 
     public Papan(int n, int m){
@@ -106,5 +106,9 @@ public class Papan{
             p.set_position(oldBaris, oldKolom);
             return false;
         }
+    }
+
+    public ArrayList<Piece> getPiece(){
+        return pieces;
     }
 }
