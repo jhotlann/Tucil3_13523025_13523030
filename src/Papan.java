@@ -29,30 +29,30 @@ public class Papan{
             return false;
         }
         else if (p.isHorizontal()){
-            for (int i = kolomPiece; i < p.getPanjang(); i++){
-                if (i >= this.kolom || board[barisPiece][i] != '.'){
+            for (int i = 0; i < p.getPanjang(); i++){
+                if (i >= this.kolom || board[barisPiece][i + kolomPiece] != '.'){
                     System.out.println("Gagal");
                     return false;
                 }
             }
 
-            for (int i = kolomPiece; i < p.getPanjang(); i++){
-                this.board[barisPiece][i] = p.getNama();
+            for (int i = 0; i < p.getPanjang(); i++){
+                this.board[barisPiece][i + kolomPiece] = p.getNama();
             }
             System.out.println("Piece berhasil ditambahkan");
             return true;
         }
 
         else if (!p.isHorizontal()){
-            for (int i = barisPiece; i < p.getPanjang(); i++){
-                if (i >= this.baris || board[i][kolomPiece] != '.'){
+            for (int i = 0; i < p.getPanjang(); i++){
+                if (i >= this.baris || board[i + barisPiece][kolomPiece] != '.'){
                     System.out.println("Gagal");
                     return false;
                 }
             }
 
-            for (int i = barisPiece; i < p.getPanjang(); i++){
-                this.board[i][kolomPiece] = p.getNama();
+            for (int i = 0; i < p.getPanjang(); i++){
+                this.board[i + barisPiece][kolomPiece] = p.getNama();
             }
             System.out.println("Piece berhasil ditambahkan");
             return true;
@@ -93,10 +93,19 @@ public class Papan{
         int oldKolom = p.getKolom();
 
         if (g.arah == "kanan" || g.arah == "kiri"){
-            p.set_position(oldBaris, oldKolom + g.jumlahKotak);
+            int jarak = g.jumlahKotak;
+            if (g.arah == "kiri"){
+                jarak = (-1) * g.jumlahKotak;
+            }
+            p.set_position(oldBaris, oldKolom + jarak);
         }
         else{
-            p.set_position(oldBaris + g.jumlahKotak, oldKolom);
+            int jarak = g.jumlahKotak;
+
+            if (g.arah == "atas"){
+                jarak *= (-1) * g.jumlahKotak;
+            }
+            p.set_position(oldBaris + jarak, oldKolom);
         }
         
         boolean add = addPiece(p);
@@ -109,6 +118,7 @@ public class Papan{
         else{
             System.out.println("Gagal pindah");
             p.set_position(oldBaris, oldKolom);
+            addPiece(p);
             return false;
         }
     }
