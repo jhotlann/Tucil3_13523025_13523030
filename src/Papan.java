@@ -1,6 +1,5 @@
 package Tucil3_13523025_13523030.src;
 
-import java.util.ArrayList;
 
 public class Papan{
     private int baris;
@@ -25,35 +24,35 @@ public class Papan{
     public boolean addPiece(Piece p){
         int barisPiece = p.getBaris();
         int kolomPiece = p.getKolom();
-        if (barisPiece >= this.baris || kolomPiece >= this.kolom){
+        if (barisPiece >= this.baris || barisPiece < 0|| kolomPiece >= this.kolom || kolomPiece < 0){
             System.out.println("Input melebihi board");
             return false;
         }
         else if (p.isHorizontal()){
-            for (int i = kolomPiece; i < p.getPanjang(); i++){
-                if (i >= this.kolom || board[barisPiece][i] != '.'){
+            for (int i = 0; i < p.getPanjang(); i++){
+                if (i >= this.kolom || board[barisPiece][i + kolomPiece] != '.'){
                     System.out.println("Gagal");
                     return false;
                 }
             }
 
-            for (int i = kolomPiece; i < p.getPanjang(); i++){
-                this.board[barisPiece][i] = p.getNama();
+            for (int i = 0; i < p.getPanjang(); i++){
+                this.board[barisPiece][i + kolomPiece] = p.getNama();
             }
             System.out.println("Piece berhasil ditambahkan");
             return true;
         }
 
         else if (!p.isHorizontal()){
-            for (int i = barisPiece; i < p.getPanjang(); i++){
-                if (i >= this.baris || board[i][kolomPiece] != '.'){
+            for (int i = 0; i < p.getPanjang(); i++){
+                if (i >= this.baris || board[i + barisPiece][kolomPiece] != '.'){
                     System.out.println("Gagal");
                     return false;
                 }
             }
 
-            for (int i = barisPiece; i < p.getPanjang(); i++){
-                this.board[i][kolomPiece] = p.getNama();
+            for (int i = 0; i < p.getPanjang(); i++){
+                this.board[i + barisPiece][kolomPiece] = p.getNama();
             }
             System.out.println("Piece berhasil ditambahkan");
             return true;
@@ -86,13 +85,28 @@ public class Papan{
         }
     }
 
-    public boolean movePiece(Piece p, int newBaris, int newKolom){
+    public boolean movePiece(Gerakan g){
+        Piece p = g.getPiece();
         remove_piece(p);
 
         int oldBaris = p.getBaris();
         int oldKolom = p.getKolom();
 
-        p.set_position(newBaris, newKolom);
+        if (g.arah == "kanan" || g.arah == "kiri"){
+            int jarak = g.jumlahKotak;
+            if (g.arah == "kiri"){
+                jarak = (-1) * g.jumlahKotak;
+            }
+            p.set_position(oldBaris, oldKolom + jarak);
+        }
+        else{
+            int jarak = g.jumlahKotak;
+
+            if (g.arah == "atas"){
+                jarak *= (-1) * g.jumlahKotak;
+            }
+            p.set_position(oldBaris + jarak, oldKolom);
+        }
         
         boolean add = addPiece(p);
 
@@ -104,8 +118,13 @@ public class Papan{
         else{
             System.out.println("Gagal pindah");
             p.set_position(oldBaris, oldKolom);
+            addPiece(p);
             return false;
         }
+    }
+
+    public char[][] getPapan(){
+        return board;
     }
 
     public ArrayList<Piece> getPiece(){
