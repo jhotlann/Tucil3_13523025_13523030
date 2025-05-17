@@ -85,4 +85,26 @@ public class Papan{
             System.out.println("");
         }
     }
+
+    public boolean movePiece(Piece p, int newBaris, int newKolom){
+        remove_piece(p);
+
+        int oldBaris = p.getBaris();
+        int oldKolom = p.getKolom();
+
+        p.set_position(newBaris, newKolom);
+        
+        boolean add = addPiece(p);
+
+        if (add){
+            System.out.println("Berhasil pindah");
+            return true;
+        }
+        
+        else{
+            System.out.println("Gagal pindah");
+            p.set_position(oldBaris, oldKolom);
+            return false;
+        }
+    }
 }
