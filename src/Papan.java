@@ -1,6 +1,5 @@
 package Tucil3_13523025_13523030.src;
 
-import java.util.ArrayList;
 
 public class Papan{
     private int baris;
@@ -25,7 +24,7 @@ public class Papan{
     public boolean addPiece(Piece p){
         int barisPiece = p.getBaris();
         int kolomPiece = p.getKolom();
-        if (barisPiece >= this.baris || kolomPiece >= this.kolom){
+        if (barisPiece >= this.baris || barisPiece < 0|| kolomPiece >= this.kolom || kolomPiece < 0){
             System.out.println("Input melebihi board");
             return false;
         }
@@ -86,13 +85,19 @@ public class Papan{
         }
     }
 
-    public boolean movePiece(Piece p, int newBaris, int newKolom){
+    public boolean movePiece(Gerakan g){
+        Piece p = g.getPiece();
         remove_piece(p);
 
         int oldBaris = p.getBaris();
         int oldKolom = p.getKolom();
 
-        p.set_position(newBaris, newKolom);
+        if (g.arah == "kanan" || g.arah == "kiri"){
+            p.set_position(oldBaris, oldKolom + g.jumlahKotak);
+        }
+        else{
+            p.set_position(oldBaris + g.jumlahKotak, oldKolom);
+        }
         
         boolean add = addPiece(p);
 
@@ -106,5 +111,9 @@ public class Papan{
             p.set_position(oldBaris, oldKolom);
             return false;
         }
+    }
+
+    public char[][] getPapan(){
+        return board;
     }
 }
