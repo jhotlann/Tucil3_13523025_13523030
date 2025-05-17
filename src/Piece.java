@@ -5,13 +5,15 @@ public class Piece {
     private boolean horizontal;
     private char nama;
     private int baris, kolom;
+    private boolean utama;
 
-    public Piece(int panjang, boolean horizontal, char nama, int baris, int kolom){
+    public Piece(int panjang, boolean horizontal, char nama, int baris, int kolom, boolean utama){
         this.panjang = panjang;
         this.horizontal = horizontal;
         this.nama = nama;
         this.baris = baris;
         this.kolom = kolom;
+        this.utama = utama;
     }
 
     public boolean isHorizontal(){
