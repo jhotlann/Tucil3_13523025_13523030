@@ -1,17 +1,19 @@
 package Tucil3_13523025_13523030.src;
-
+import java.util.ArrayList;
 
 public class Papan{
     private int baris;
     private int kolom;
-    // private ArrayList<Piece> pieces;
+    private ArrayList<Piece> pieces;
     private char board[][];
-    private int barisExit, kolomExit;
+    private int exitRow;
+    private int exitCol;
+
 
     public Papan(int n, int m, int barisExit, int kolomExit){
         this.baris = n;
         this.kolom = m;
-        // this.pieces = new ArrayList<Piece>();
+        this.pieces = new ArrayList<Piece>();
         this.board = new char[n][m];
         this.barisExit = barisExit;
         this.kolomExit = kolomExit;
@@ -22,6 +24,18 @@ public class Papan{
             }
         }
 
+    }
+
+    public Papan(Papan papan){
+        this.baris = papan.baris;
+        this.kolom = papan.kolom;
+        this.pieces = new ArrayList<Piece>(papan.pieces);
+        this.board = new char[baris][kolom];
+        for (int i = 0; i < baris; i++){
+            for (int j = 0; j < kolom; j++){
+                board[i][j] = papan.board[i][j];
+            }
+        }
     }
 
     public boolean addPiece(Piece p){
@@ -42,6 +56,7 @@ public class Papan{
             for (int i = 0; i < p.getPanjang(); i++){
                 this.board[barisPiece][i + kolomPiece] = p.getNama();
             }
+            this.pieces.add(p);
             System.out.println("Piece berhasil ditambahkan");
             return true;
         }
@@ -57,6 +72,7 @@ public class Papan{
             for (int i = 0; i < p.getPanjang(); i++){
                 this.board[i + barisPiece][kolomPiece] = p.getNama();
             }
+            this.pieces.add(p);
             System.out.println("Piece berhasil ditambahkan");
             return true;
         }
@@ -133,4 +149,41 @@ public class Papan{
     public boolean isSolved(){
         return true;
     }
+
+    public ArrayList<Piece> getPieces(){
+        return pieces;
+    }
+
+    public void setExit(int row, int col) {
+        this.exitRow = row;
+        this.exitCol = col;
+    }
+
+    public int getExitRow() {
+        return exitRow;
+    }
+
+    public int getExitCol() {
+        return exitCol;
+    }
+
+    public int getBaris() {
+        return baris;
+    }
+
+    public int getKolom() {
+        return kolom;
+    }
+
+    public String hashString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < baris; i++) {
+            for (int j = 0; j < kolom; j++) {
+                sb.append(board[i][j]);
+            }
+        }
+        return sb.toString();
+    }
+
+
 }
