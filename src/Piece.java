@@ -2,7 +2,7 @@ package Tucil3_13523025_13523030.src;
 
 public class Piece {
     private int panjang;
-    private boolean horizontal;
+    private boolean horizontal;  
     private char nama;
     private int baris, kolom;
     private boolean utama;
