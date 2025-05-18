@@ -1,5 +1,5 @@
 package Tucil3_13523025_13523030.src;
-
+import java.util.ArrayList;
 
 public class Papan{
     private int baris;
