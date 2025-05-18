@@ -6,15 +6,15 @@ public class Papan{
     private int kolom;
     private ArrayList<Piece> pieces;
     private char board[][];
-    private int exitRow;
-    private int exitCol;
+    private int barisExit, kolomExit;
 
-
-    public Papan(int n, int m){
+    public Papan(int n, int m, int barisExit, int kolomExit){
         this.baris = n;
         this.kolom = m;
         this.pieces = new ArrayList<Piece>();
         this.board = new char[n][m];
+        this.barisExit = barisExit;
+        this.kolomExit = kolomExit;
 
         for (int i = 0; i < baris; i++){
             for (int j = 0; j < kolom; j++){
@@ -142,6 +142,10 @@ public class Papan{
 
     public char[][] getPapan(){
         return board;
+    }
+
+    public boolean isSolved(){
+        return true;
     }
 
     public ArrayList<Piece> getPieces(){
