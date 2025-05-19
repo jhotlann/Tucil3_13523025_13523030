@@ -16,6 +16,15 @@ public class Piece {
         this.utama = utama;
     }
 
+    public Piece(Piece other){
+        this.panjang = other.panjang;
+        this.horizontal = other.horizontal;
+        this.nama = other.nama;
+        this.baris = other.baris;
+        this.kolom = other.kolom;
+        this.utama = other.utama;
+    }
+
     public boolean isHorizontal(){
         return horizontal;
     }
@@ -39,5 +48,9 @@ public class Piece {
 
     public int getKolom(){
         return kolom;
+    }
+
+    public boolean isPrimary(){
+        return utama;
     }
 }
