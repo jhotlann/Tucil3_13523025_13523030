@@ -28,13 +28,13 @@ public class AStarSearch {
         
         // Print information about primary piece
         Piece primaryPiece = initialState.getPrimaryPiece();
-        if (primaryPiece != null) {
-            System.out.println("Primary piece: " + primaryPiece.getNama() + 
-                              " at position (" + primaryPiece.getBaris() + "," + 
-                              primaryPiece.getKolom() + ")");
-            System.out.println("Exit position: (" + initialState.getBarisExit() + 
-                              "," + initialState.getKolomExit() + ")");
-        }
+        // if (primaryPiece != null) {
+        //     System.out.println("Primary piece: " + primaryPiece.getNama() + 
+        //                       " at position (" + primaryPiece.getBaris() + "," + 
+        //                       primaryPiece.getKolom() + ")");
+        //     System.out.println("Exit position: (" + initialState.getBarisExit() + 
+        //                       "," + initialState.getKolomExit() + ")");
+        // }
     }
     
     public void solve() {
@@ -67,10 +67,10 @@ public class AStarSearch {
                 System.out.println("Nodes expanded: " + expandedNodes + 
                                   ", Queue size: " + openSet.size() + 
                                   ", Visited states: " + visited.size());
-                System.out.println("Current f-score: " + 
-                                  (currentNode.getPathCost() + currentNode.getHeuristic()) +
-                                  " (g=" + currentNode.getPathCost() + 
-                                  ", h=" + currentNode.getHeuristic() + ")");
+                // System.out.println("Current f-score: " + 
+                //                   (currentNode.getPathCost() + currentNode.getHeuristic()) +
+                //                   " (g=" + currentNode.getPathCost() + 
+                //                   ", h=" + currentNode.getHeuristic() + ")");
             }
             
             // Check if we've already processed this state more efficiently
@@ -87,12 +87,12 @@ public class AStarSearch {
                 long timeTaken = endTime - startTime;
                 System.out.println("Solved in " + timeTaken + " ms");
                 System.out.println("Nodes expanded: " + expandedNodes);
-                System.out.println("Solution path cost: " + currentNode.getPathCost() + " moves");
-                System.out.println("States visited: " + visited.size());
-                System.out.println("Final f-score: " + 
-                                  (currentNode.getPathCost() + currentNode.getHeuristic()) +
-                                  " (g=" + currentNode.getPathCost() + 
-                                  ", h=" + currentNode.getHeuristic() + ")");
+                // System.out.println("Solution path cost: " + currentNode.getPathCost() + " moves");
+                // System.out.println("States visited: " + visited.size());
+                // System.out.println("Final f-score: " + 
+                //                   (currentNode.getPathCost() + currentNode.getHeuristic()) +
+                //                   " (g=" + currentNode.getPathCost() + 
+                //                   ", h=" + currentNode.getHeuristic() + ")");
                 
                 List<Gerakan> solution = reconstructPath(currentNode);
                 printSolution(solution, initialState);
@@ -360,7 +360,7 @@ public class AStarSearch {
         }
         
         System.out.println("\n=== SOLUTION ===");
-        System.out.println("Number of moves: " + solution.size());
+        System.out.println("Solution found! Number of moves: " + solution.size());
         Papan currentState = new Papan(initialState); // Create a deep copy to manipulate
         
         for (int i = 0; i < solution.size(); i++) {
@@ -379,8 +379,8 @@ public class AStarSearch {
             // Create a new move with the current piece reference
             Gerakan currentMove = new Gerakan(currentPiece, direction, steps);
             
-            System.out.println("\nMove " + (i+1) + ": Piece " + currentPiece.getNama() + 
-                              " moves " + direction + " by " + steps + " spaces");
+            System.out.println("\nGerakan " + (i+1) + ": " + currentPiece.getNama() + 
+                              "-" + direction + " by " + steps + " spaces");
             
             boolean moveSuccess = currentState.movePiece(currentMove);
             if (!moveSuccess) {
@@ -391,9 +391,9 @@ public class AStarSearch {
             
             // Optional: Print the state's heuristic value after each move
             int heuristicValue = heuristic.calculate(currentState);
-            System.out.println("Heuristic value after move: " + heuristicValue);
+            // System.out.println("Heuristic value after move: " + heuristicValue);
         }
         
-        System.out.println("\nPuzzle solved!");
+        // System.out.println("\nPuzzle solved!");
     }
 }

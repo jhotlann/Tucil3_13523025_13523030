@@ -294,7 +294,7 @@ public class GreedyBestFirstSearch {
             System.out.println("No moves needed - puzzle is already solved!");
             return;
         }
-        
+        System.out.println("\n=== SOLUTION ===");
         System.out.println("Solution found! Number of moves: " + solution.size());
         Papan currentState = new Papan(initialState); // Create a deep copy to manipulate
         
@@ -314,8 +314,8 @@ public class GreedyBestFirstSearch {
             // Create a new move with the current piece reference
             Gerakan currentMove = new Gerakan(currentPiece, direction, steps);
             
-            System.out.println("Move " + (i+1) + ": Piece " + currentPiece.getNama() + 
-                              " moves " + direction + " by " + steps + " spaces");
+            System.out.println("Gerakan " + (i+1) + ": " + currentPiece.getNama() + 
+                              "-" + direction + " by " + steps + " spaces");
             
             boolean moveSuccess = currentState.movePiece(currentMove);
             if (!moveSuccess) {
@@ -323,6 +323,8 @@ public class GreedyBestFirstSearch {
             }
             
             currentState.displayBoard();
+            // System.out.println("Heuristic: " + heuristic.calculate(currentState));
+            System.out.println();
         }
     }
 }

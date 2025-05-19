@@ -58,19 +58,19 @@ public class Papan{
         if (!p.isUtama()){
             // Check if piece is out of bounds
             if (barisPiece < 0 || barisPiece >= this.baris || kolomPiece < 0 || kolomPiece >= this.kolom) {
-                System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+                // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
                 return false;
             }
 
             // Check if horizontal piece exceeds board bounds or overlaps with exit (if not the main piece)
             if (p.isHorizontal() && (kolomPiece + p.getPanjang() - 1 >= this.kolom )) {
-                System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+                // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
                 return false;
             }
 
             // Check if vertical piece exceeds board bounds or overlaps with exit (if not the main piece)
             if (!p.isHorizontal() && (barisPiece + p.getPanjang() - 1 >= this.baris)) {
-                System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+                // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
                 return false;
             }
         }
@@ -86,7 +86,7 @@ public class Papan{
 
                 // Check if position is empty or is the exit (only for main piece)
                 if (board[barisPiece][kolomPiece + i] != '.') {
-                    System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+                    // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
                     return false;
                 }
             }
@@ -115,7 +115,7 @@ public class Papan{
                 
                 // Check if position is empty or is the exit (only for main piece)
                 if (board[barisPiece + i][kolomPiece] != '.') {
-                    System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+                    // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
                     return false;
                 }
             }
@@ -136,7 +136,7 @@ public class Papan{
         
         // Add the piece to the list
         this.pieces.add(p);
-        System.out.println("Piece " + p.getNama() + " berhasil ditambahkan");
+        // System.out.println("Piece " + p.getNama() + " berhasil ditambahkan");
         return true;
     }
 
@@ -176,7 +176,7 @@ public class Papan{
         Piece p = g.getPiece();
         boolean remove = remove_piece(p);
         if (!remove){
-            System.out.println("Piece " + p.getNama() + " gagal dipindahkan");
+            // System.out.println("Piece " + p.getNama() + " gagal dipindahkan");
             return false;
         }
 
@@ -203,14 +203,14 @@ public class Papan{
         boolean add = addPiece(p);
 
         if (!add){
-            System.out.println("Piece " + p.getNama() + " gagal dipindahkan");
+            // System.out.println("Piece " + p.getNama() + " gagal dipindahkan");
             // Revert the piece to its original position
             p.set_position(oldBaris, oldKolom);
             addPiece(p);
             return false;
         }
 
-        System.out.println("Piece " + p.getNama() + " berhasil dipindahkan");
+        // System.out.println("Piece " + p.getNama() + " berhasil dipindahkan");
         return true;
     }
 
