@@ -7,7 +7,7 @@ public class GreedyBestFirstSearch {
     private HashMap<String, Boolean> visited;
     private PriorityQueue<Node> priorityQueue;
     private int expandedNodes;
-    private BoardHeuristic heuristic;
+    private Heuristic heuristic;
     private int maxIterations = 100000; 
     
     public GreedyBestFirstSearch(Papan initialState) {

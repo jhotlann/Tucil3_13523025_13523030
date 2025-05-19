@@ -8,7 +8,7 @@ public class AStarSearch {
     private HashMap<String, Integer> gScore; // Track path cost to reach each state
     private PriorityQueue<Node> openSet;
     private int expandedNodes;
-    private BoardHeuristic heuristic;
+    private Heuristic heuristic;
     private int maxIterations = 100000; 
     
     public AStarSearch(Papan initialState) {

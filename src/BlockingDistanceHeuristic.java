@@ -1,7 +1,7 @@
     package Tucil3_13523025_13523030.src;
 
     
-    public class BlockingDistanceHeuristic implements BoardHeuristic {
+    public class BlockingDistanceHeuristic implements Heuristic {
         
         @Override
         public int calculate(Papan state) {
