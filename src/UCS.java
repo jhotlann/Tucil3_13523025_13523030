@@ -43,6 +43,7 @@
                     for (Gerakan g : current_state.getSteps()){
                         initBoard.movePiece(g);
                         initBoard.displayBoard();
+                        System.out.println();
                     }
                     System.out.println("Exit from loop");
                     System.out.printf("Baris: %d  ", papanCopy.getprimaryPiece().getBaris());
@@ -53,7 +54,7 @@
                 for (Piece temp : papanCopy.getPieces()){
                     current_pieces.add(new Piece(temp));
                 }
-                current_state.getPapan().displayBoard();
+                // current_state.getPapan().displayBoard();
                 System.out.println();
                 for (Piece p : current_pieces){
                     Papan papanCopy1 = new Papan(current_state.getPapan());
@@ -127,8 +128,6 @@
         }
         
         private boolean isAtExit(Papan papan, Piece primary, int exitRow, int exitCol) {
-            System.out.println("isAtExit");
-            papan.displayBoard();
                 if (primary.isHorizontal()){
                     if (primary.getKolom() == exitCol && primary.getBaris() == exitRow){
                         return true;

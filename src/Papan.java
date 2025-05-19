@@ -46,13 +46,12 @@ public class Papan{
         int barisPiece = p.getBaris();
         int kolomPiece = p.getKolom();
         if (barisPiece >= this.baris || barisPiece < 0|| kolomPiece >= this.kolom || kolomPiece < 0){
-            System.out.println("Input melebihi board");
             return false;
         }
         else if (p.isHorizontal()){
             for (int i = 0; i < p.getPanjang(); i++){
                 if (i + kolomPiece >= this.kolom || (board[barisPiece][i + kolomPiece] != '.')){
-                    System.out.println("Gagal");
+                    // System.out.println("Gagal");
                     return false;
                 }
             }
