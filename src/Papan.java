@@ -47,38 +47,45 @@ public class Papan{
     
 
     public boolean addPiece(Piece p) {
+        if (this.pieces.contains(p)){
+            System.out.println("Piece " + p.getNama() + " sudah ada di papan");
+            return false;
+        }
+        
         int barisPiece = p.getBaris();
         int kolomPiece = p.getKolom();
         
-        // Check if piece is out of bounds
-        if (barisPiece < 0 || barisPiece >= this.baris || kolomPiece < 0 || kolomPiece >= this.kolom) {
-            System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
-            return false;
-        }
-
-        if (p.isHorizontal()) {
-            // Check if horizontal piece exceeds board bounds or overlaps with exit (if not the main piece)
-            if (!p.isUtama() && (kolomPiece + p.getPanjang() > this.kolom || 
-                (barisPiece == this.getBarisExit() && kolomPiece + p.getPanjang() - 1 >= this.getKolomExit()))) {
+        if (!p.isUtama()){
+            // Check if piece is out of bounds
+            if (barisPiece < 0 || barisPiece >= this.baris || kolomPiece < 0 || kolomPiece >= this.kolom) {
                 System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
                 return false;
             }
-            
+
+            // Check if horizontal piece exceeds board bounds or overlaps with exit (if not the main piece)
+            if (p.isHorizontal() && (kolomPiece + p.getPanjang() - 1 >= this.kolom )) {
+                System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+                return false;
+            }
+
+            // Check if vertical piece exceeds board bounds or overlaps with exit (if not the main piece)
+            if (!p.isHorizontal() && (barisPiece + p.getPanjang() - 1 >= this.baris)) {
+                System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+                return false;
+            }
+        }
+        
+        
+        if (p.isHorizontal()) {          
             // For horizontal piece, check if all cells are empty
+            
             for (int i = 0; i < p.getPanjang(); i++) {
-                // Check if position is within bounds
-                if (kolomPiece + i >= this.kolom) {
-                    // For main piece, we allow it to extend one cell beyond the exit
-                    if (p.isUtama() && barisPiece == this.getBarisExit() && kolomPiece + i == this.getKolomExit() + 1) {
-                        continue;
-                    }
-                    System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
-                    return false;
+                if (p.isUtama() && barisPiece == this.getBarisExit() && kolomPiece + i >= this.getKolomExit()) {
+                    continue; // Skip the exit cell for the main piece
                 }
-                
+
                 // Check if position is empty or is the exit (only for main piece)
-                if (board[barisPiece][kolomPiece + i] != '.' && 
-                    !(p.isUtama() && barisPiece == this.getBarisExit() && kolomPiece + i == this.getKolomExit())) {
+                if (board[barisPiece][kolomPiece + i] != '.') {
                     System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
                     return false;
                 }
@@ -87,7 +94,7 @@ public class Papan{
             // Place the piece on the board
             for (int i = 0; i < p.getPanjang(); i++) {
                 // Skip placing the piece on the exit cell if it's the main piece and at the exit
-                if (p.isUtama() && barisPiece == this.getBarisExit() && kolomPiece + i == this.getKolomExit()) {
+                if (p.isUtama() && barisPiece == this.getBarisExit() && kolomPiece + i >= this.getKolomExit()) {
                     continue;
                 }
                 // Skip placing beyond the board if it's the main piece exiting
@@ -98,28 +105,16 @@ public class Papan{
             }
         } 
         else { // Vertical piece
-            // Check if vertical piece exceeds board bounds or overlaps with exit (if not the main piece)
-            if (!p.isUtama() && (barisPiece + p.getPanjang() > this.baris || 
-                (kolomPiece == this.getKolomExit() && barisPiece + p.getPanjang() - 1 >= this.getBarisExit()))) {
-                System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
-                return false;
-            }
             
             // For vertical piece, check if all cells are empty
             for (int i = 0; i < p.getPanjang(); i++) {
-                // Check if position is within bounds
-                if (barisPiece + i >= this.baris) {
-                    // For main piece, we allow it to extend one cell beyond the exit
-                    if (p.isUtama() && kolomPiece == this.getKolomExit() && barisPiece + i == this.getBarisExit() + 1) {
-                        continue;
-                    }
-                    System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
-                    return false;
+
+                if (p.isUtama() && barisPiece + 1 >= this.getBarisExit() && kolomPiece == this.getKolomExit()) {
+                    continue; // Skip the exit cell for the main piece
                 }
                 
                 // Check if position is empty or is the exit (only for main piece)
-                if (board[barisPiece + i][kolomPiece] != '.' && 
-                    !(p.isUtama() && kolomPiece == this.getKolomExit() && barisPiece + i == this.getBarisExit())) {
+                if (board[barisPiece + i][kolomPiece] != '.') {
                     System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
                     return false;
                 }
@@ -128,7 +123,7 @@ public class Papan{
             // Place the piece on the board
             for (int i = 0; i < p.getPanjang(); i++) {
                 // Skip placing the piece on the exit cell if it's the main piece and at the exit
-                if (p.isUtama() && kolomPiece == this.getKolomExit() && barisPiece + i == this.getBarisExit()) {
+                if (p.isUtama() && kolomPiece == this.getKolomExit() && barisPiece + i >= this.getBarisExit()) {
                     continue;
                 }
                 // Skip placing beyond the board if it's the main piece exiting
@@ -145,7 +140,12 @@ public class Papan{
         return true;
     }
 
-    public void remove_piece(Piece p){
+    public boolean remove_piece(Piece p){
+        if (!this.pieces.contains(p)){
+            System.out.println("Piece " + p.getNama() + " tidak ada di papan");
+            return false;
+        }
+
         int barisPiece = p.getBaris();
         int kolomPiece = p.getKolom();
         if (p.isHorizontal()){
@@ -160,6 +160,7 @@ public class Papan{
         }
 
         pieces.remove(p);
+        return true;
     }
 
     public void displayBoard(){
@@ -173,7 +174,11 @@ public class Papan{
 
     public boolean movePiece(Gerakan g){
         Piece p = g.getPiece();
-        remove_piece(p);
+        boolean remove = remove_piece(p);
+        if (!remove){
+            System.out.println("Piece " + p.getNama() + " gagal dipindahkan");
+            return false;
+        }
 
         int oldBaris = p.getBaris();
         int oldKolom = p.getKolom();
@@ -197,27 +202,16 @@ public class Papan{
         
         boolean add = addPiece(p);
 
-        ArrayList<Piece> pieces = getPieces();
-        char symbol = p.getNama();
-
-        if (add){
-            for (int i = 0; i < pieces.size(); i++) {
-                if (pieces.get(i).getNama() == symbol) {
-                    pieces.set(i, p);
-                    break;
-                }
-            }
-            // displayBoard();
-            System.out.println("Piece " + p.getNama() + " berhasil pindah ke " + g.getArah() + "sebanyak " + g.getJumlahKotak() + " langkah");
-            return true;
-        }
-        
-        else{
-            System.out.println("Piece " + p.getNama() + " gagal pindah ke " + g.getArah() + "sebanyak " + g.getJumlahKotak() + " langkah");
+        if (!add){
+            System.out.println("Piece " + p.getNama() + " gagal dipindahkan");
+            // Revert the piece to its original position
             p.set_position(oldBaris, oldKolom);
             addPiece(p);
             return false;
         }
+
+        System.out.println("Piece " + p.getNama() + " berhasil dipindahkan");
+        return true;
     }
 
     public char[][] getPapan(){

@@ -38,16 +38,16 @@ public class Main {
         papan.addPiece(J);
         
         papan.addPiece(L);
-        papan.displayBoard();
+        // papan.displayBoard();
         // Jalankan solver Greedy
         GreedyBestFirstSearch solver = new GreedyBestFirstSearch(papan);
-        List<Gerakan> solusi = solver.solve();
-
-        for (Gerakan g : solusi) {
-            g.printGerakan();
-            papan.movePiece(g);
-            papan.displayBoard();
-        }
+        // List<Gerakan> solusi = solver.solve();
+        solver.solve();
+        // for (Gerakan g : solusi) {
+        //     g.printGerakan();
+        //     papan.movePiece(g);
+        //     papan.displayBoard();
+        // }
         
     }
 }

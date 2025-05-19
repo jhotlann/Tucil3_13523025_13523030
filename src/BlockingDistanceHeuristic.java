@@ -37,6 +37,10 @@ public class BlockingDistanceHeuristic implements BoardHeuristic {
             return 100; // Large penalty for being on the wrong row
         }
         
+        if (rightEnd >= exitCol) {
+            return 0; // Already at the exit
+        }
+
         // Calculate the distance from the right end of the piece to the exit
         int distance = exitCol - rightEnd;
         
@@ -45,7 +49,7 @@ public class BlockingDistanceHeuristic implements BoardHeuristic {
         char[][] board = state.getPapan();
         
         // Check if there are any blocking pieces between the primary piece and the exit
-        for (int j = rightEnd + 1; j <= exitCol; j++) {
+        for (int j = rightEnd + 1; j < exitCol; j++) {
             if (board[row][j] != '.' && board[row][j] != primaryPiece.getNama()) {
                 blockingPieces++;
             }
@@ -69,6 +73,10 @@ public class BlockingDistanceHeuristic implements BoardHeuristic {
         if (col != exitCol) {
             return 100; // Large penalty for being on the wrong column
         }
+
+        if (bottomEnd >= exitRow) {
+            return 0; // Already at the exit
+        }
         
         // Calculate the distance from the bottom end of the piece to the exit
         int distance = exitRow - bottomEnd;
@@ -78,7 +86,7 @@ public class BlockingDistanceHeuristic implements BoardHeuristic {
         char[][] board = state.getPapan();
         
         // Check if there are any blocking pieces between the primary piece and the exit
-        for (int i = bottomEnd + 1; i <= exitRow; i++) {
+        for (int i = bottomEnd + 1; i < exitRow; i++) {
             if (board[i][col] != '.' && board[i][col] != primaryPiece.getNama()) {
                 blockingPieces++;
             }
