@@ -17,8 +17,20 @@ class Gerakan{
         this.jumlahKotak = jumlahKotak;
     }
 
+    public String getArah(){
+        return arah;
+    }
+
     public Piece getPiece(){
         return piece;
+    }
+
+    public int getJumlahKotak(){
+        return jumlahKotak;
+    }
+
+    public void printGerakan(){
+        System.out.println("Piece " + piece.getNama() + " bergerak " + arah + " sejauh " + jumlahKotak);
     }
     
 }
