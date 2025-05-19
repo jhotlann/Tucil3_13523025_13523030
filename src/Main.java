@@ -49,6 +49,8 @@ public class Main {
         //     papan.displayBoard();
         // }
         
+        AStarSearch astarSolver = new AStarSearch(papan);
+        astarSolver.solve();
     }
 }
     

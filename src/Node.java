@@ -9,6 +9,7 @@ public class Node {
     private Node parent;
     private Gerakan action;
     private int heuristic;
+    private int pathCost;
     
     /**
      * Create a new node with the given state, parent, action, and heuristic value
@@ -46,5 +47,17 @@ public class Node {
      */
     public int getHeuristic() {
         return heuristic;
+    }
+
+    public void setHeuristic(int heuristic) {
+        this.heuristic = heuristic;
+    }
+
+    public int getPathCost() {
+        return pathCost;
+    }
+
+    public void setPathCost(int pathCost) {
+        this.pathCost = pathCost;
     }
 }
