@@ -12,13 +12,13 @@ public class Papan{
     private int exitCol;
 
 
-    public Papan(int n, int m, int barisExit, int kolomExit){
+    public Papan(int n, int m, int exitRow, int exitCol){
         this.baris = n;
         this.kolom = m;
         this.pieces = new ArrayList<Piece>();
         this.board = new char[n][m];
-        this.exitRow = barisExit;
-        this.exitCol = kolomExit;
+        this.exitRow = exitRow;
+        this.exitCol = exitCol;
 
         for (int i = 0; i < baris; i++){
             for (int j = 0; j < kolom; j++){
@@ -28,13 +28,13 @@ public class Papan{
 
     }
 
-    public Papan(int n, int m, char[][] matrix, int barisExit, int kolomExit){
+    public Papan(int n, int m, char[][] matrix, int exitRow, int exitCol){
         this.baris = n;
         this.kolom = m;
         this.pieces = new ArrayList<Piece>();
         this.board = matrix;
-        this.exitRow = barisExit;
-        this.exitCol = kolomExit;
+        this.exitRow = exitRow;
+        this.exitCol = exitCol;
 
         HashSet<Character> piecesSet = new HashSet<>();
         for (int i = 0; i < n; i++){
@@ -73,8 +73,8 @@ public class Papan{
     public Papan(Papan other) {
         this.baris = other.baris;
         this.kolom = other.kolom;
-        this.barisExit = other.barisExit;
-        this.kolomExit = other.kolomExit;
+        this.exitRow = other.exitRow;
+        this.exitCol = other.exitCol;
         
         // Deep copy the board
         this.board = new char[baris][kolom];
@@ -126,7 +126,7 @@ public class Papan{
             // For horizontal piece, check if all cells are empty
             
             for (int i = 0; i < p.getPanjang(); i++) {
-                if (p.isUtama() && barisPiece == this.getBarisExit() && kolomPiece + i >= this.getKolomExit()) {
+                if (p.isUtama() && barisPiece == this.getExitRow() && kolomPiece + i >= this.getExitCol()) {
                     continue; // Skip the exit cell for the main piece
                 }
 
@@ -140,7 +140,7 @@ public class Papan{
             // Place the piece on the board
             for (int i = 0; i < p.getPanjang(); i++) {
                 // Skip placing the piece on the exit cell if it's the main piece and at the exit
-                if (p.isUtama() && barisPiece == this.getBarisExit() && kolomPiece + i >= this.getKolomExit()) {
+                if (p.isUtama() && barisPiece == this.getExitRow() && kolomPiece + i >= this.getExitCol()) {
                     continue;
                 }
                 // Skip placing beyond the board if it's the main piece exiting
@@ -155,7 +155,7 @@ public class Papan{
             // For vertical piece, check if all cells are empty
             for (int i = 0; i < p.getPanjang(); i++) {
 
-                if (p.isUtama() && barisPiece + 1 >= this.getBarisExit() && kolomPiece == this.getKolomExit()) {
+                if (p.isUtama() && barisPiece + 1 >= this.getExitRow() && kolomPiece == this.getExitCol()) {
                     continue; // Skip the exit cell for the main piece
                 }
                 
@@ -169,7 +169,7 @@ public class Papan{
             // Place the piece on the board
             for (int i = 0; i < p.getPanjang(); i++) {
                 // Skip placing the piece on the exit cell if it's the main piece and at the exit
-                if (p.isUtama() && kolomPiece == this.getKolomExit() && barisPiece + i >= this.getBarisExit()) {
+                if (p.isUtama() && kolomPiece == this.getExitCol() && barisPiece + i >= this.getExitRow()) {
                     continue;
                 }
                 // Skip placing beyond the board if it's the main piece exiting
@@ -274,16 +274,16 @@ public class Papan{
     }
 
     public void setExit(int row, int col) {
-        this.barisExit = row;
-        this.kolomExit = col;
+        this.exitRow = row;
+        this.exitCol = col;
     }
 
-    public int getBarisExit() {
-        return barisExit;
+    public int getExitRow() {
+        return exitRow;
     }
 
-    public int getKolomExit() {
-        return kolomExit;
+    public int getExitCol() {
+        return exitCol;
     }
 
     public int getBaris() {
