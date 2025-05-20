@@ -15,45 +15,33 @@ public class GreedyBestFirstSearch {
         this.visited = new HashMap<>();
         this.expandedNodes = 0;
         this.heuristic = new BlockingDistanceHeuristic();
-        
-      
         this.priorityQueue = new PriorityQueue<>(Comparator.comparingInt(Node::getHeuristic));
-        System.out.println("Inisialisasi Greedy Best First Search");
+
+        System.out.println("Greedy Best First Search");
         System.out.println("Papan awal: ");
         initialState.displayBoard();
-        solve();
+
+        if (!initialState.isPapanValid()) {
+            System.out.println("Papan tidak valid. Silakan periksa input.");
+            return;
+        }
     }
     
-    public void solve() {
+    public List<Gerakan> solve() {
         Node startNode = new Node(initialState, null, null, heuristic.calculate(initialState));
         priorityQueue.add(startNode);
-        // System.out.println("Heuristik: " + startNode.getHeuristic());
+    
         visited.put(initialState.hashString(), true);
-        
-        // long startTime = System.currentTimeMillis();
-        
+
         while (!priorityQueue.isEmpty() && expandedNodes < maxIterations) {
             Node currentNode = priorityQueue.poll();
             expandedNodes++;
-            
-           
-            // if (expandedNodes % 1000 == 0) {
-            //     System.out.println("Nodes expanded: " + expandedNodes + 
-            //                       ", Queue size: " + priorityQueue.size() + 
-            //                       ", Visited states: " + visited.size());
-            // }
-            
-           
+
             if (isSolved(currentNode.getState())) {
-                // long endTime = System.currentTimeMillis();
-                // System.out.println("Solved in " + (endTime - startTime) + " ms");
-                // System.out.println("Nodes expanded: " + expandedNodes);
                 List<Gerakan> solution = reconstructPath(currentNode);
-                printSolution(solution, initialState); 
-                return;
+                return solution;
             }
-            
-          
+  
             List<Node> successors = generateSuccessors(currentNode);
             
             for (Node successor : successors) {
@@ -66,11 +54,12 @@ public class GreedyBestFirstSearch {
             }
         }
         
-        
         if (expandedNodes >= maxIterations) {
             System.out.println("Reached maximum iterations (" + maxIterations + "). Search terminated.");
+            return null;
         } else {
-            System.out.println("No solution found after expanding " + expandedNodes + " nodes");
+            System.out.println("Solusi tidak ditemukan.");
+            return null;
         }
     }
     
@@ -87,17 +76,15 @@ public class GreedyBestFirstSearch {
             boolean isHorizontal = piece.isHorizontal();
             char[][] board = currentState.getPapan();
             
-           
             if (isHorizontal) {
-                
-                
+
                 int steps = 1;
                 if (col - steps >= 0 && board[row][col - steps] == '.') {
                     Papan newState = new Papan(currentState);
                     
                     Piece newPiece = newState.getPieceByName(pieceName);
                     if (newPiece == null) {
-                        System.out.println("Error: Piece " + pieceName + " not found in new state.");
+                        System.out.println("Error: Piece " + pieceName + " tidak ditemukan di state.");
                         continue;
                     }
                     
@@ -113,8 +100,7 @@ public class GreedyBestFirstSearch {
                         }
                     }
                 }
-                
-                
+
                 int rightEnd = col + length - 1;
                 steps = 1;
                 if (rightEnd + steps < currentState.getKolom() && 
@@ -125,7 +111,7 @@ public class GreedyBestFirstSearch {
                     
                     Piece newPiece = newState.getPieceByName(pieceName);
                     if (newPiece == null) {
-                        System.out.println("Error: Piece " + pieceName + " not found in new state.");
+                        System.out.println("Error: Piece " + pieceName + " tidak ditemukan di state.");
                         continue;
                     }
                     
@@ -149,7 +135,7 @@ public class GreedyBestFirstSearch {
                     
                     Piece newPiece = newState.getPieceByName(pieceName);
                     if (newPiece == null) {
-                        System.out.println("Error: Piece " + pieceName + " not found in new state.");
+                        System.out.println("Error: Piece " + pieceName + " tidak ditemukan di state.");
                         continue;
                     }
                     
@@ -165,8 +151,7 @@ public class GreedyBestFirstSearch {
                         }
                     }
                 }
-                
-                
+
                 int bottomEnd = row + length - 1;
                 steps = 1;
                 if (bottomEnd + steps < currentState.getBaris() && 
@@ -177,7 +162,7 @@ public class GreedyBestFirstSearch {
                     
                     Piece newPiece = newState.getPieceByName(pieceName);
                     if (newPiece == null) {
-                        System.out.println("Error: Piece " + pieceName + " not found in new state.");
+                        System.out.println("Error: Piece " + pieceName + " tidak ditemukan di state.");
                         continue;
                     }
                     
@@ -210,31 +195,57 @@ public class GreedyBestFirstSearch {
         
         if (primaryPiece.isHorizontal()) {
             int pieceRow = primaryPiece.getBaris();
-            int pieceRightCol = primaryPiece.getKolom() + primaryPiece.getPanjang() - 1;
-            
-            if (exitCol >= state.getKolom()) {
-                return pieceRow == exitRow && pieceRightCol == state.getKolom() - 1;
-            } else {
-                return pieceRow == exitRow && pieceRightCol >= exitCol;
+            int pieceCol = primaryPiece.getKolom();
+
+            if (pieceCol == exitCol && pieceRow == exitRow) {
+                return true; 
             }
+
+            if (pieceCol < exitCol) {
+                int pieceRightCol = pieceCol + primaryPiece.getPanjang() - 1;
+                
+                if (pieceRightCol >= exitCol) {
+                    return pieceRow == exitRow;
+                } 
+            } else {
+                int pieceLeftCol = pieceCol;
+                
+                if (pieceLeftCol <= exitCol) {
+                    return pieceRow == exitRow;
+                }
+            }
+
+            
         } 
+      
         else {
             int pieceCol = primaryPiece.getKolom();
-            int pieceBottomRow = primaryPiece.getBaris() + primaryPiece.getPanjang() - 1;
-            
-            
-            if (exitRow >= state.getBaris()) {
-                return pieceCol == exitCol && pieceBottomRow == state.getBaris() - 1;
+            int pieceRow = primaryPiece.getBaris();
+
+            if (pieceCol == exitCol && pieceRow == exitRow) {
+                return true; 
+            }
+
+            if (pieceRow < exitRow) {
+                int pieceTopRow = pieceRow;
+                
+                if (pieceTopRow >= exitRow) {
+                    return pieceCol == exitCol;
+                } 
             } else {
-                return pieceBottomRow >= exitRow && pieceCol == exitCol;
+                int pieceBottomRow = pieceRow + primaryPiece.getPanjang() - 1;
+                
+                if (pieceBottomRow <= exitRow) {
+                    return pieceCol == exitCol;
+                }
             }
         }
+        return false;
     }
     
     private List<Gerakan> reconstructPath(Node node) {
         List<Gerakan> path = new ArrayList<>();
         
-        // Trace back from goal node to start node
         while (node.getParent() != null) {
             path.add(0, node.getAction());
             node = node.getParent();
@@ -245,11 +256,11 @@ public class GreedyBestFirstSearch {
     
     private void printSolution(List<Gerakan> solution, Papan initialState) {
         if (solution.isEmpty()) {
-            System.out.println("No moves needed - puzzle is already solved!");
+            System.out.println("Puzzle sudah diselesaikan!");
             return;
         }
-        System.out.println("\n=== SOLUTION ===");
-        System.out.println("Solution found! Number of moves: " + solution.size());
+        System.out.println("\n=== SOLUSI ===");
+        
         Papan currentState = new Papan(initialState); // Create a deep copy to manipulate
         
         for (int i = 0; i < solution.size(); i++) {
@@ -263,12 +274,10 @@ public class GreedyBestFirstSearch {
                 System.out.println("Error: Piece " + originalPiece.getNama() + " not found in current state.");
                 continue;
             }
-            
-          
+
             Gerakan currentMove = new Gerakan(currentPiece, direction, steps);
             
-            System.out.println("Gerakan " + (i+1) + ": " + currentPiece.getNama() + 
-                              "-" + direction + " by " + steps + " spaces");
+            System.out.println("Gerakan " + (i+1) + ": " + currentPiece.getNama() + "-" + direction);
             
             boolean moveSuccess = currentState.movePiece(currentMove);
             if (!moveSuccess) {
@@ -276,7 +285,6 @@ public class GreedyBestFirstSearch {
             }
             
             currentState.displayBoard();
-            // System.out.println("Heuristic: " + heuristic.calculate(currentState));
             System.out.println();
         }
     }

@@ -25,8 +25,9 @@ public class Load {
     
     
             
-            
-            System.out.printf("%d x %d\n", baris, kolom);
+            System.out.println("=========================");
+            System.out.println("Papan Puzzle");
+            System.out.printf("Ukuran papan: %d x %d\n", baris, kolom);
             System.out.printf("Jumlah piece: %d\n", piecesCount);
 
 
@@ -60,7 +61,6 @@ public class Load {
                 } 
                 
                 else{//Exit at last col
-                    System.out.println("OK");
                     kolomK = kolom - 1;
                     for (int i = 0; i < baris; i++){
                         line = buf.get(i);
@@ -102,18 +102,17 @@ public class Load {
                 }
             }
             br.close();   
-            System.out.printf("BarisK: %d, KolomK = %d\n", barisK, kolomK);
-            for (int i = 0; i < baris; i++){
-                for (int j = 0; j < kolom; j++){
-                    System.out.print(papan[i][j]);
-                }
-                System.out.println();
-            }
-
+            
+            System.out.printf("Pintu Keluar: %d, %d\n", barisK, kolomK);
             Papan p = new Papan(baris, kolom, papan, barisK, kolomK);
 
-            return p;
+            System.out.println("Primary Piece: " + p.getPrimaryPiece().getNama());
+
+            System.out.println("\nPapan:");
+            p.displayBoard();
+            System.out.println("=========================\n");
             
+            return p;
         }
         catch (Exception e){
             System.out.println(e.getMessage());
