@@ -14,13 +14,13 @@ public class GUI extends JFrame {
     private BoardPanel boardPanel;
     private List<Gerakan> solutionSteps;
     private Papan board;
-    public GUI(Papan initialBoard){
+    public GUI(Papan initialBoard, List<Gerakan> steps){
         // this.SolutionSteps = steps;
         // this.panel = new JPanel();
         this.board = new Papan(initialBoard);
         this.boardPanel = new BoardPanel(this.board);
-        this.solutionSteps = new UCS(initialBoard).solve();
-
+        // this.solutionSteps = new UCS(initialBoard).solve();
+        this.solutionSteps = steps;
         add(boardPanel);
         setSize(board.getKolom() * 100, board.getBaris()*100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
