@@ -11,7 +11,6 @@ public class Papan{
     private int exitRow;
     private int exitCol;
 
-
     public Papan(int n, int m, int exitRow, int exitCol){
         this.baris = n;
         this.kolom = m;
@@ -89,8 +88,6 @@ public class Papan{
         for (Piece piece : other.pieces) {
             this.pieces.add(new Piece(piece));
         }
-
-
     }
     
 
@@ -215,7 +212,6 @@ public class Papan{
             addPiece(p);
             return false;
         }
-
         return true;
     }
 
@@ -226,7 +222,6 @@ public class Papan{
     public boolean isSolved(){
         return true;
     }
-
 
     public ArrayList<Piece> getPieces(){
         return pieces;
@@ -297,5 +292,4 @@ public class Papan{
 
         return true; 
     }
-
 }

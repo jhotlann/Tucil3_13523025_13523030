@@ -20,7 +20,6 @@
             }
         }
         
-    
         private int calculateHorizontalPieceHeuristic(Papan state, Piece primaryPiece, int exitRow, int exitCol) {
             int row = primaryPiece.getBaris();
             int col = primaryPiece.getKolom();

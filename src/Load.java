@@ -14,7 +14,6 @@ public class Load {
     
             String line = br.readLine();
         
-            
             String[] dimensi = line.split(" ");
             int baris = Integer.parseInt(dimensi[0]);
             int kolom = Integer.parseInt(dimensi[1]);
@@ -22,14 +21,11 @@ public class Load {
             line = br.readLine();
             String[] pieces = line.split(" ");
             int piecesCount = Integer.parseInt(pieces[0]);
-    
-    
-            
+
             System.out.println("=========================");
             System.out.println("Papan Puzzle");
             System.out.printf("Ukuran papan: %d x %d\n", baris, kolom);
             System.out.printf("Jumlah piece: %d\n", piecesCount);
-
 
             char[][] papan = new char[baris][kolom];
             int barisK = -1;

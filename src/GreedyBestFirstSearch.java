@@ -180,7 +180,6 @@ public class GreedyBestFirstSearch {
                 }
             }
         }
-        
         return successors;
     }
     
@@ -214,8 +213,6 @@ public class GreedyBestFirstSearch {
                     return pieceRow == exitRow;
                 }
             }
-
-            
         } 
       
         else {
@@ -250,7 +247,7 @@ public class GreedyBestFirstSearch {
             path.add(0, node.getAction());
             node = node.getParent();
         }
-        
+
         return path;
     }
     
@@ -275,11 +272,10 @@ public class GreedyBestFirstSearch {
                 continue;
             }
 
-            Gerakan currentMove = new Gerakan(currentPiece, direction, steps);
-            
+            Gerakan currentMove = new Gerakan(currentPiece, direction, steps); 
             System.out.println("Gerakan " + (i+1) + ": " + currentPiece.getNama() + "-" + direction);
-            
             boolean moveSuccess = currentState.movePiece(currentMove);
+            
             if (!moveSuccess) {
                 System.out.println("Warning: Failed to apply move " + (i+1) + " in solution print.");
             }

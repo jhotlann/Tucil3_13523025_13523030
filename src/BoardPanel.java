@@ -2,13 +2,9 @@ package Tucil3_13523025_13523030.src;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.*;
 import java.awt.*;
 
-
-import Tucil3_13523025_13523030.src.Papan;
-import Tucil3_13523025_13523030.src.Piece;
 
 public class BoardPanel extends JPanel{
     private Papan board;
@@ -33,7 +29,6 @@ public class BoardPanel extends JPanel{
             }
         }
     }
-
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -61,15 +56,6 @@ public class BoardPanel extends JPanel{
             else{
                 g.fillRect(p.getKolom() * cellsize, p.getBaris() * cellsize, cellsize, p.getPanjang() * cellsize);
             }
-
-            // g.setColor(Color.BLACK);
-            // for (int r = 0; r <= board.getBaris(); r++) {
-            //     g.drawLine(0, r * cellsize, getWidth(), r * cellsize);
-            //     g.drawLine(p.getKolom() * cellsize, p.getBaris() * cellsize, p.getKolom() * cellsize + cellsize,  p.getBaris() * cellsize + p.getPanjang() * cellsize);
-            // }
-            // for (int c = 0; c <= board.getKolom(); c++) {
-            //     g.drawLine(c * cellsize, 0, c * cellsize, getHeight());
-            // }
         }
     }
 }

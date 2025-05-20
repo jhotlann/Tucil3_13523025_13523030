@@ -26,8 +26,7 @@ public class UCS {
             current_state = pq.poll();
 
             papanCopy = new Papan(current_state.getPapan());
-            // papanCopy.displayBoard();
-            // System.out.println();
+        
             if (visited.contains(papanCopy.hashString())){
                 continue;
             }
@@ -35,7 +34,6 @@ public class UCS {
                 visited.add(papanCopy.hashString());
             }
 
-            
             if (isAtExit2(papanCopy, papanCopy.getPrimaryPiece(), papanCopy.getExitRow(), papanCopy.getExitCol())){
                 System.out.println("JAWABAN:");
                 initBoard.displayBoard();
@@ -56,7 +54,7 @@ public class UCS {
             for (Piece temp : papanCopy.getPieces()){
                 current_pieces.add(new Piece(temp));
             }
-            // current_state.getPapan().displayBoard();
+            
             for (Piece p : current_pieces){
                 if (p.isHorizontal()){
                     for (int steps = 1; steps <= papanCopy.getKolom(); steps++) {
@@ -94,7 +92,6 @@ public class UCS {
                         }
                     }
 
-                  
                 }else{
                     for (int steps = 1; steps <= papanCopy.getBaris(); steps++) {
                         Gerakan move = new Gerakan(new Piece(p), "atas", steps);
@@ -132,9 +129,7 @@ public class UCS {
 
                 }
             }
-            
         }
-
         System.out.println("no solution");
         return null;
     }
@@ -146,14 +141,10 @@ public class UCS {
 
         if (primary.isHorizontal()) {
             // Check if primary piece covers exit column on the same row
-            return (startRow == exitRow &&
-                    startCol <= exitCol &&
-                    startCol + length - 1 >= exitCol);
+            return (startRow == exitRow && startCol <= exitCol && startCol + length - 1 >= exitCol);
         } else {
             // Check if primary piece covers exit row on the same column
-            return (startCol == exitCol &&
-                    startRow <= exitRow &&
-                    startRow + length - 1 >= exitRow);
+            return (startCol == exitCol && startRow <= exitRow && startRow + length - 1 >= exitRow);
         }
     }
 }
