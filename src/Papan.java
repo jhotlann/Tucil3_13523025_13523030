@@ -101,34 +101,34 @@ public class Papan{
         int barisPiece = p.getBaris();
         int kolomPiece = p.getKolom();
         
-        if (!p.isUtama()){
-            // Check if piece is out of bounds
-            if (barisPiece < 0 || barisPiece >= this.baris || kolomPiece < 0 || kolomPiece >= this.kolom) {
-                // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
-                return false;
-            }
-
-            // Check if horizontal piece exceeds board bounds or overlaps with exit (if not the main piece)
-            if (p.isHorizontal() && (kolomPiece + p.getPanjang() - 1 >= this.kolom )) {
-                // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
-                return false;
-            }
-
-            // Check if vertical piece exceeds board bounds or overlaps with exit (if not the main piece)
-            if (!p.isHorizontal() && (barisPiece + p.getPanjang() - 1 >= this.baris)) {
-                // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
-                return false;
-            }
+        
+        // Check if piece is out of bounds
+        if (barisPiece < 0 || barisPiece >= this.baris || kolomPiece < 0 || kolomPiece >= this.kolom) {
+            // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+            return false;
         }
+
+        // Check if horizontal piece exceeds board bounds or overlaps with exit (if not the main piece)
+        if (p.isHorizontal() && (kolomPiece + p.getPanjang() - 1 >= this.kolom )) {
+            // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+            return false;
+        }
+
+        // Check if vertical piece exceeds board bounds or overlaps with exit (if not the main piece)
+        if (!p.isHorizontal() && (barisPiece + p.getPanjang() - 1 >= this.baris)) {
+            // System.out.println("Piece " + p.getNama() + " gagal ditambahkan");
+            return false;
+        }
+        
         
         
         if (p.isHorizontal()) {          
             // For horizontal piece, check if all cells are empty
             
             for (int i = 0; i < p.getPanjang(); i++) {
-                if (p.isUtama() && barisPiece == this.getExitRow() && kolomPiece + i >= this.getExitCol()) {
-                    continue; // Skip the exit cell for the main piece
-                }
+                // if (p.isUtama() && barisPiece == this.getExitRow() && kolomPiece + i >= this.getExitCol()) {
+                //     continue; // Skip the exit cell for the main piece
+                // }
 
                 // Check if position is empty or is the exit (only for main piece)
                 if (board[barisPiece][kolomPiece + i] != '.') {
@@ -140,13 +140,13 @@ public class Papan{
             // Place the piece on the board
             for (int i = 0; i < p.getPanjang(); i++) {
                 // Skip placing the piece on the exit cell if it's the main piece and at the exit
-                if (p.isUtama() && barisPiece == this.getExitRow() && kolomPiece + i >= this.getExitCol()) {
-                    continue;
-                }
+                // if (p.isUtama() && barisPiece == this.getExitRow() && kolomPiece + i >= this.getExitCol()) {
+                //     continue;
+                // }
                 // Skip placing beyond the board if it's the main piece exiting
-                if (kolomPiece + i >= this.kolom) {
-                    continue;
-                }
+                // if (kolomPiece + i >= this.kolom) {
+                //     continue;
+                // }
                 this.board[barisPiece][kolomPiece + i] = p.getNama();
             }
         } 
@@ -155,9 +155,9 @@ public class Papan{
             // For vertical piece, check if all cells are empty
             for (int i = 0; i < p.getPanjang(); i++) {
 
-                if (p.isUtama() && barisPiece + 1 >= this.getExitRow() && kolomPiece == this.getExitCol()) {
-                    continue; // Skip the exit cell for the main piece
-                }
+                // if (p.isUtama() && barisPiece + 1 >= this.getExitRow() && kolomPiece == this.getExitCol()) {
+                //     continue; // Skip the exit cell for the main piece
+                // }
                 
                 // Check if position is empty or is the exit (only for main piece)
                 if (board[barisPiece + i][kolomPiece] != '.') {
@@ -169,13 +169,13 @@ public class Papan{
             // Place the piece on the board
             for (int i = 0; i < p.getPanjang(); i++) {
                 // Skip placing the piece on the exit cell if it's the main piece and at the exit
-                if (p.isUtama() && kolomPiece == this.getExitCol() && barisPiece + i >= this.getExitRow()) {
-                    continue;
-                }
-                // Skip placing beyond the board if it's the main piece exiting
-                if (barisPiece + i >= this.baris) {
-                    continue;
-                }
+                // if (p.isUtama() && kolomPiece == this.getExitCol() && barisPiece + i >= this.getExitRow()) {
+                //     continue;
+                // }
+                // // Skip placing beyond the board if it's the main piece exiting
+                // if (barisPiece + i >= this.baris) {
+                //     continue;
+                // }
                 this.board[barisPiece + i][kolomPiece] = p.getNama();
             }
         }
@@ -320,6 +320,24 @@ public class Papan{
             }
         }
         return null; // jika tidak ada piece utama
+    }
+
+    public boolean isPapanValid() {
+        // Check if the primary piece is present and in a valid position
+        Piece primaryPiece = getPrimaryPiece();
+        if (primaryPiece == null) {
+            return false;
+        }
+
+        if (primaryPiece.getBaris() != exitRow && primaryPiece.isHorizontal()) {
+            return false; 
+        }
+
+        if (primaryPiece.getKolom() != exitCol && !primaryPiece.isHorizontal()) {
+            return false; 
+        }
+
+        return true; 
     }
 
 }

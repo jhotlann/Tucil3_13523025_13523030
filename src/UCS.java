@@ -6,7 +6,16 @@ import java.util.PriorityQueue;
 
 public class UCS {
     public UCS(Papan initBoard) {
-        System.out.println("Starting UCS class");
+        if (!initBoard.isPapanValid()) {
+            System.out.println("Papan tidak valid. Silakan periksa input.");
+            return;
+        }
+
+        // System.out.println("Starting UCS class");
+        System.out.println("Uniform Cost Search");
+        System.out.println("Papan awal: ");
+        initBoard.displayBoard();
+
         PriorityQueue<State> pq = new PriorityQueue<>();
         ArrayList<Gerakan> langkahAwal = new ArrayList<>();
         HashSet<String> visited = new HashSet<>();
@@ -32,12 +41,15 @@ public class UCS {
                 // Display original board
                 initBoard.displayBoard();
                 System.out.println();
-                
+                int langkah = 1;
+
                 // Display solution
                 Papan displayBoard = new Papan(initBoard);
                 for (Gerakan g : currentState.getGerakan()) {
-                    System.out.println("Piece " + g.getPiece().getNama() + " bergerak ke " + g.getArah() + " sebanyak " + g.getJumlahKotak() + " langkah");
                     
+                    System.out.println("\nGerakan "+ langkah + ": "+ g.getPiece().getNama() + "-" + g.getArah());
+                    langkah++;
+
                     // Find the corresponding piece in displayBoard
                     Piece displayPiece = displayBoard.getPieceByName(g.getPiece().getNama());
                     Gerakan displayGerakan = new Gerakan(displayPiece, g.getArah(), g.getJumlahKotak());
@@ -49,7 +61,7 @@ public class UCS {
                     displayBoard.displayBoard();
                     System.out.println();
                 }
-                System.out.printf("Primary Piece keluar di Baris: %d, Kolom: %d\n", primary.getBaris(), primary.getKolom());
+                
                 System.out.println("Jumlah langkah: " + currentState.getGerakan().size());
                 return;
             }
@@ -158,7 +170,7 @@ public class UCS {
                 }
             }
         }
-        System.out.println("No solution found!");
+        System.out.println("Solusi tidak ditemukan!");
     }
 
     private boolean isAtExit(Papan papan, Piece primary) {

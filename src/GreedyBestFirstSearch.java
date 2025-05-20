@@ -18,9 +18,14 @@ public class GreedyBestFirstSearch {
         
       
         this.priorityQueue = new PriorityQueue<>(Comparator.comparingInt(Node::getHeuristic));
-        System.out.println("Inisialisasi Greedy Best First Search");
+        System.out.println("Greedy Best First Search");
         System.out.println("Papan awal: ");
         initialState.displayBoard();
+
+        if (!initialState.isPapanValid()) {
+            System.out.println("Papan tidak valid. Silakan periksa input.");
+            return;
+        }
         solve();
     }
     
@@ -70,7 +75,7 @@ public class GreedyBestFirstSearch {
         if (expandedNodes >= maxIterations) {
             System.out.println("Reached maximum iterations (" + maxIterations + "). Search terminated.");
         } else {
-            System.out.println("No solution found after expanding " + expandedNodes + " nodes");
+            System.out.println("Sol");
         }
     }
     
@@ -249,7 +254,7 @@ public class GreedyBestFirstSearch {
             return;
         }
         System.out.println("\n=== SOLUTION ===");
-        System.out.println("Solution found! Number of moves: " + solution.size());
+        System.out.println("Solusi ditemukan!Jumlah langkah: " + solution.size());
         Papan currentState = new Papan(initialState); // Create a deep copy to manipulate
         
         for (int i = 0; i < solution.size(); i++) {
@@ -268,7 +273,7 @@ public class GreedyBestFirstSearch {
             Gerakan currentMove = new Gerakan(currentPiece, direction, steps);
             
             System.out.println("Gerakan " + (i+1) + ": " + currentPiece.getNama() + 
-                              "-" + direction + " by " + steps + " spaces");
+                              "-" + direction);
             
             boolean moveSuccess = currentState.movePiece(currentMove);
             if (!moveSuccess) {

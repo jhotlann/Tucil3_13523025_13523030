@@ -21,9 +21,15 @@ public class AStarSearch {
         this.openSet = new PriorityQueue<>(Comparator.comparingInt(node -> 
             node.getPathCost() + node.getHeuristic()));
         
-        System.out.println("Inisialisasi A* Search");
+        System.out.println("A* Search");
         System.out.println("Papan awal: ");
         initialState.displayBoard();
+    
+        if (!initialState.isPapanValid()) {
+            System.out.println("Papan tidak valid. Silakan periksa input.");
+            return;
+        }
+
         solve();
     }
     
@@ -99,7 +105,7 @@ public class AStarSearch {
         if (expandedNodes >= maxIterations) {
             System.out.println("Reached maximum iterations (" + maxIterations + "). Search terminated.");
         } else {
-            System.out.println("No solution found after expanding " + expandedNodes + " nodes");
+            System.out.println("Solusi tidak ditemukan");
         }
     }
     
@@ -266,7 +272,7 @@ public class AStarSearch {
         }
         
         System.out.println("\n=== SOLUTION ===");
-        System.out.println("Solution found! Number of moves: " + solution.size());
+        System.out.println("Solusi ditemukan!Jumlah langkah: " + solution.size());
         Papan currentState = new Papan(initialState); 
         
         for (int i = 0; i < solution.size(); i++) {
@@ -284,7 +290,7 @@ public class AStarSearch {
             Gerakan currentMove = new Gerakan(currentPiece, direction, steps);
             
             System.out.println("\nGerakan " + (i+1) + ": " + currentPiece.getNama() + 
-                              "-" + direction + " by " + steps + " spaces");
+                              "-" + direction);
             
             boolean moveSuccess = currentState.movePiece(currentMove);
             if (!moveSuccess) {
