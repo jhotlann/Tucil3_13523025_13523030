@@ -195,24 +195,52 @@ public class GreedyBestFirstSearch {
         
         if (primaryPiece.isHorizontal()) {
             int pieceRow = primaryPiece.getBaris();
-            int pieceRightCol = primaryPiece.getKolom() + primaryPiece.getPanjang() - 1;
-            
-            if (exitCol >= state.getKolom()) {
-                return pieceRow == exitRow && pieceRightCol == state.getKolom() - 1;
-            } else {
-                return pieceRow == exitRow && pieceRightCol >= exitCol;
+            int pieceCol = primaryPiece.getKolom();
+
+            if (pieceCol == exitCol && pieceRow == exitRow) {
+                return true; 
             }
+
+            if (pieceCol < exitCol) {
+                int pieceRightCol = pieceCol + primaryPiece.getPanjang() - 1;
+                
+                if (pieceRightCol >= exitCol) {
+                    return pieceRow == exitRow;
+                } 
+            } else {
+                int pieceLeftCol = pieceCol;
+                
+                if (pieceLeftCol <= exitCol) {
+                    return pieceRow == exitRow;
+                }
+            }
+
+            
         } 
+      
         else {
             int pieceCol = primaryPiece.getKolom();
-            int pieceBottomRow = primaryPiece.getBaris() + primaryPiece.getPanjang() - 1;
-    
-            if (exitRow >= state.getBaris()) {
-                return pieceCol == exitCol && pieceBottomRow == state.getBaris() - 1;
+            int pieceRow = primaryPiece.getBaris();
+
+            if (pieceCol == exitCol && pieceRow == exitRow) {
+                return true; 
+            }
+
+            if (pieceRow < exitRow) {
+                int pieceTopRow = pieceRow;
+                
+                if (pieceTopRow >= exitRow) {
+                    return pieceCol == exitCol;
+                } 
             } else {
-                return pieceBottomRow >= exitRow && pieceCol == exitCol;
+                int pieceBottomRow = pieceRow + primaryPiece.getPanjang() - 1;
+                
+                if (pieceBottomRow <= exitRow) {
+                    return pieceCol == exitCol;
+                }
             }
         }
+        return false;
     }
     
     private List<Gerakan> reconstructPath(Node node) {
