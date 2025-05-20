@@ -25,10 +25,9 @@ public class GreedyBestFirstSearch {
             System.out.println("Papan tidak valid. Silakan periksa input.");
             return;
         }
-        solve();
     }
     
-    public void solve() {
+    public List<Gerakan> solve() {
         Node startNode = new Node(initialState, null, null, heuristic.calculate(initialState));
         priorityQueue.add(startNode);
     
@@ -40,8 +39,7 @@ public class GreedyBestFirstSearch {
 
             if (isSolved(currentNode.getState())) {
                 List<Gerakan> solution = reconstructPath(currentNode);
-                printSolution(solution, initialState); 
-                return;
+                return solution;
             }
   
             List<Node> successors = generateSuccessors(currentNode);
@@ -58,8 +56,10 @@ public class GreedyBestFirstSearch {
         
         if (expandedNodes >= maxIterations) {
             System.out.println("Reached maximum iterations (" + maxIterations + "). Search terminated.");
+            return null;
         } else {
             System.out.println("Solusi tidak ditemukan.");
+            return null;
         }
     }
     

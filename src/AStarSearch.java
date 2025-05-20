@@ -29,11 +29,9 @@ public class AStarSearch {
             System.out.println("Papan tidak valid. Silakan periksa input.");
             return;
         }
-
-        solve();
     }
     
-    public void solve() {
+    public List<Gerakan> solve() {
         int initialHeuristic = heuristic.calculate(initialState);
         
         Node startNode = new Node(initialState, null, null, initialHeuristic);
@@ -61,8 +59,7 @@ public class AStarSearch {
             if (isSolved(currentNode.getState())) {
              
                 List<Gerakan> solution = reconstructPath(currentNode);
-                printSolution(solution, initialState);
-                return;
+                return solution;
             }
             
             List<Node> successors = generateSuccessors(currentNode);
@@ -86,8 +83,10 @@ public class AStarSearch {
         
         if (expandedNodes >= maxIterations) {
             System.out.println("Reached maximum iterations (" + maxIterations + "). Search terminated.");
+            return null;
         } else {
             System.out.println("Solusi tidak ditemukan");
+            return null;
         }
     }
     
