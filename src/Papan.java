@@ -1,5 +1,6 @@
 package Tucil3_13523025_13523030.src;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Papan{
     private int baris;
@@ -25,6 +26,48 @@ public class Papan{
         }
 
     }
+
+    public Papan(int n, int m, char[][] matrix, int barisExit, int kolomExit){
+        this.baris = n;
+        this.kolom = m;
+        this.pieces = new ArrayList<Piece>();
+        this.board = matrix;
+        this.exitRow = barisExit;
+        this.exitCol = kolomExit;
+
+        HashSet<Character> piecesSet = new HashSet<>();
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < m; j++){
+                char pieceChar = matrix[i][j];
+                    if (pieceChar != '.'){
+                        if (!piecesSet.contains(pieceChar)){
+                            boolean utama = false;
+                            if (pieceChar == 'P'){
+                                utama = true;
+                            }
+                            piecesSet.add(pieceChar);
+                            int tempBaris = i + 1;
+                            int tempKol = j + 1;
+                            int panjang = 1;
+                            boolean hor = false;
+                            while (tempKol < kolom && matrix[i][tempKol] == pieceChar){//horizontal
+                                hor = true;
+                                panjang++;
+                                tempKol++;
+                            }
+                            while (tempBaris < baris && matrix[tempBaris][j] == pieceChar){//Vertikal
+                                panjang++;
+                                tempBaris++;    
+                            }
+
+                            Piece p = new Piece(panjang, hor, pieceChar, i, j, utama);
+                            pieces.add(p);
+                        }
+                    }
+                }
+            }
+        }
+    
 
     public Papan(Papan papan){
         this.baris = papan.baris;
