@@ -89,6 +89,8 @@ public class Papan{
         for (Piece piece : other.pieces) {
             this.pieces.add(new Piece(piece));
         }
+
+
     }
     
 
@@ -145,13 +147,16 @@ public class Papan{
     }
 
     public boolean remove_piece(Piece p){
-        if (!this.pieces.contains(p)){
-            System.out.println("Piece " + p.getNama() + " tidak ada di papan");
-            return false;
+        Piece target = null;
+        for (Piece piece : this.pieces) {
+            if (piece.getNama() == p.getNama()) {
+                target = piece;
+                break;
+            }
         }
 
-        int barisPiece = p.getBaris();
-        int kolomPiece = p.getKolom();
+        int barisPiece = target.getBaris();
+        int kolomPiece = target.getKolom();
         if (p.isHorizontal()){
             for (int i = 0; i < p.getPanjang(); i++){
                 this.board[barisPiece][i + kolomPiece] = '.';
@@ -163,7 +168,7 @@ public class Papan{
             }
         }
 
-        pieces.remove(p);
+        pieces.remove(target);
         return true;
     }
 
