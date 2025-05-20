@@ -33,12 +33,6 @@ public class Main {
         if (pilihan == 1) {
             UCS ucs = new UCS(tes);
             List<Gerakan> steps = ucs.solve();
-            System.out.println("Banyak steps: " + steps.size());
-            // for (Gerakan g: steps){
-            //     System.out.println(g.getPiece().getNama());
-                
-            // }
-
             GUI gui = new GUI(copy,steps);
         } else if (pilihan == 2) {
             GreedyBestFirstSearch greedy = new GreedyBestFirstSearch(tes);
