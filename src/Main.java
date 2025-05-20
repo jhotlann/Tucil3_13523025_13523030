@@ -33,15 +33,15 @@ public class Main {
         if (pilihan == 1) {
             UCS ucs = new UCS(tes);
             List<Gerakan> steps = ucs.solve();
-            GUI gui = new GUI(copy,steps);
+            GUI gui = new GUI(copy,steps, "UCS");
         } else if (pilihan == 2) {
             GreedyBestFirstSearch greedy = new GreedyBestFirstSearch(tes);
             List<Gerakan> steps = greedy.solve();
-            GUI gui = new GUI(tes,steps);
+            GUI gui = new GUI(tes,steps, "GBFS");
         } else if (pilihan == 3) {
             AStarSearch astar = new AStarSearch(tes);
             List<Gerakan> steps = astar.solve();
-            GUI gui = new GUI(tes,steps);
+            GUI gui = new GUI(tes,steps, "AStar");
         }
     }
 }

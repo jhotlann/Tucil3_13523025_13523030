@@ -9,7 +9,7 @@ public class GUI extends JFrame {
     private BoardPanel boardPanel;
     private List<Gerakan> solutionSteps;
     private Papan board;
-    public GUI(Papan initialBoard, List<Gerakan> steps){
+    public GUI(Papan initialBoard, List<Gerakan> steps, String algo){
         this.board = new Papan(initialBoard);
         this.boardPanel = new BoardPanel(this.board);
         this.solutionSteps = steps;
@@ -18,12 +18,12 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-        setTitle("Rush Hour");
+        setTitle("Rush Hour with " + algo);
         runSolution();
     }
 
     private void runSolution(){
-        Timer timer = new Timer(3000, new ActionListener() {
+        Timer timer = new Timer(500, new ActionListener() {
             private int index = 0;
 
             public void actionPerformed(ActionEvent e) {
