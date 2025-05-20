@@ -14,6 +14,7 @@ public class Main {
         System.out.println(filePath);
 
         Papan tes = Load.Load_Papan(filePath);
+        Papan copy = new Papan(tes);
 
         System.out.println("Strategi pencarian yang tersedia:");
         System.out.println("1. Uniform Cost Search");
@@ -32,7 +33,13 @@ public class Main {
         if (pilihan == 1) {
             UCS ucs = new UCS(tes);
             List<Gerakan> steps = ucs.solve();
-            GUI gui = new GUI(tes,steps);
+            System.out.println("Banyak steps: " + steps.size());
+            // for (Gerakan g: steps){
+            //     System.out.println(g.getPiece().getNama());
+                
+            // }
+
+            GUI gui = new GUI(copy,steps);
         } else if (pilihan == 2) {
             GreedyBestFirstSearch greedy = new GreedyBestFirstSearch(tes);
             List<Gerakan> steps = greedy.solve();
