@@ -17,4 +17,16 @@ public class State implements Comparable<State> {
         public int compareTo(State other) {
             return Integer.compare(this.skor, other.skor);
         }
+
+        public Papan getPapan() {
+            return papan;
+        }
+
+        public List<Gerakan> getGerakan() {
+            return gerakan;
+        }
+
+        public int getSkor() {
+            return skor;
+        }
     }
