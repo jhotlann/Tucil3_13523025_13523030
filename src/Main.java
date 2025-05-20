@@ -38,19 +38,14 @@ public class Main {
         papan.addPiece(J);
         
         papan.addPiece(L);
-        // papan.displayBoard();
-        // Jalankan solver Greedy
-        GreedyBestFirstSearch solver = new GreedyBestFirstSearch(papan);
-        // List<Gerakan> solusi = solver.solve();
-        solver.solve();
-        // for (Gerakan g : solusi) {
-        //     g.printGerakan();
-        //     papan.movePiece(g);
-        //     papan.displayBoard();
-        // }
+       
+        new GreedyBestFirstSearch(papan);
+       
         
-        AStarSearch astarSolver = new AStarSearch(papan);
-        astarSolver.solve();
+        new AStarSearch(papan);
+        
+
+        // new UCS(papan);
     }
 }
     
