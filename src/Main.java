@@ -13,7 +13,7 @@ public class Main {
         String filePath = "../data/" + fileName + ".txt";
         System.out.println(filePath);
 
-        Papan tes = Load.Load_Papan("../data/2.txt");
+        Papan tes = Load.Load_Papan(filePath);
 
         System.out.println("Strategi pencarian yang tersedia:");
         System.out.println("1. Uniform Cost Search");
