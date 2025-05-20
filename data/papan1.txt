@@ -1,0 +1,6 @@
+4 4
+5
+K 
+AABC
+E.BC
+E.DD

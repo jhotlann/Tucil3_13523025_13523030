@@ -1,6 +1,6 @@
 6 6
 11
-     K
+K
 AAB..F
 ..BCDF
 GPPCDF
