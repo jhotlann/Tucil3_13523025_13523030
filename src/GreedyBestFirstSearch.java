@@ -21,32 +21,33 @@ public class GreedyBestFirstSearch {
         System.out.println("Inisialisasi Greedy Best First Search");
         System.out.println("Papan awal: ");
         initialState.displayBoard();
+        solve();
     }
     
     public void solve() {
         Node startNode = new Node(initialState, null, null, heuristic.calculate(initialState));
         priorityQueue.add(startNode);
-        System.out.println("Heuristik: " + startNode.getHeuristic());
+        // System.out.println("Heuristik: " + startNode.getHeuristic());
         visited.put(initialState.hashString(), true);
         
-        long startTime = System.currentTimeMillis();
+        // long startTime = System.currentTimeMillis();
         
         while (!priorityQueue.isEmpty() && expandedNodes < maxIterations) {
             Node currentNode = priorityQueue.poll();
             expandedNodes++;
             
            
-            if (expandedNodes % 1000 == 0) {
-                System.out.println("Nodes expanded: " + expandedNodes + 
-                                  ", Queue size: " + priorityQueue.size() + 
-                                  ", Visited states: " + visited.size());
-            }
+            // if (expandedNodes % 1000 == 0) {
+            //     System.out.println("Nodes expanded: " + expandedNodes + 
+            //                       ", Queue size: " + priorityQueue.size() + 
+            //                       ", Visited states: " + visited.size());
+            // }
             
            
             if (isSolved(currentNode.getState())) {
-                long endTime = System.currentTimeMillis();
-                System.out.println("Solved in " + (endTime - startTime) + " ms");
-                System.out.println("Nodes expanded: " + expandedNodes);
+                // long endTime = System.currentTimeMillis();
+                // System.out.println("Solved in " + (endTime - startTime) + " ms");
+                // System.out.println("Nodes expanded: " + expandedNodes);
                 List<Gerakan> solution = reconstructPath(currentNode);
                 printSolution(solution, initialState); 
                 return;
@@ -118,7 +119,7 @@ public class GreedyBestFirstSearch {
                 steps = 1;
                 if (rightEnd + steps < currentState.getKolom() && 
                     (board[row][rightEnd + steps] == '.' || 
-                     (piece.isUtama() && row == currentState.getBarisExit() && rightEnd + steps == currentState.getKolomExit()))) {
+                     (piece.isUtama() && row == currentState.getExitRow() && rightEnd + steps == currentState.getExitCol()))) {
                     
                     Papan newState = new Papan(currentState);
                     
@@ -170,7 +171,7 @@ public class GreedyBestFirstSearch {
                 steps = 1;
                 if (bottomEnd + steps < currentState.getBaris() && 
                     (board[bottomEnd + steps][col] == '.' || 
-                     (piece.isUtama() && bottomEnd + steps == currentState.getBarisExit() && col == currentState.getKolomExit()))) {
+                     (piece.isUtama() && bottomEnd + steps == currentState.getExitRow() && col == currentState.getExitCol()))) {
                     
                     Papan newState = new Papan(currentState);
                     
@@ -204,8 +205,8 @@ public class GreedyBestFirstSearch {
             return false;
         }
         
-        int exitRow = state.getBarisExit();
-        int exitCol = state.getKolomExit();
+        int exitRow = state.getExitRow();
+        int exitCol = state.getExitCol();
         
         if (primaryPiece.isHorizontal()) {
             int pieceRow = primaryPiece.getBaris();
