@@ -2,7 +2,7 @@ package Tucil3_13523025_13523030.src;
 
 public class Piece {
     private int panjang;
-    private boolean horizontal;
+    private boolean horizontal;  
     private char nama;
     private int baris, kolom;
     private boolean utama;
@@ -14,6 +14,15 @@ public class Piece {
         this.baris = baris;
         this.kolom = kolom;
         this.utama = utama;
+    }
+
+    public Piece(Piece other){
+        this.panjang = other.panjang;
+        this.horizontal = other.horizontal;
+        this.nama = other.nama;
+        this.baris = other.baris;
+        this.kolom = other.kolom;
+        this.utama = other.utama;
     }
 
     public boolean isHorizontal(){
@@ -39,5 +48,9 @@ public class Piece {
 
     public int getKolom(){
         return kolom;
+    }
+
+    public boolean isPrimary(){
+        return utama;
     }
 }
