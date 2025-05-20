@@ -28,13 +28,19 @@ public class Main {
             System.out.println("Pilihan tidak valid. Silakan pilih 1, 2, atau 3.");
             return;
         }
-
+        
         if (pilihan == 1) {
-            new UCS(tes);
+            UCS ucs = new UCS(tes);
+            List<Gerakan> steps = ucs.solve();
+            GUI gui = new GUI(tes,steps);
         } else if (pilihan == 2) {
-            new GreedyBestFirstSearch(tes);
+            GreedyBestFirstSearch greedy = new GreedyBestFirstSearch(tes);
+            List<Gerakan> steps = greedy.solve();
+            GUI gui = new GUI(tes,steps);
         } else if (pilihan == 3) {
-            new AStarSearch(tes);
+            AStarSearch astar = new AStarSearch(tes);
+            List<Gerakan> steps = astar.solve();
+            GUI gui = new GUI(tes,steps);
         }
     }
 }
