@@ -11,7 +11,7 @@ public class Main {
 
         String fileName = scanner.nextLine();
         String filePath = "../data/" + fileName + ".txt";
-        System.out.println("Memuat papan dari " + filePath + "...");
+        System.out.println(filePath);
 
         Papan tes = Load.Load_Papan("../data/2.txt");
 
@@ -23,7 +23,7 @@ public class Main {
         
         int pilihan = scanner.nextInt();
         System.out.println();
-        
+
         if (pilihan < 1 || pilihan > 3) {
             System.out.println("Pilihan tidak valid. Silakan pilih 1, 2, atau 3.");
             return;
@@ -36,13 +36,6 @@ public class Main {
         } else if (pilihan == 3) {
             new AStarSearch(tes);
         }
-        
-       
-        
-        
-        
-
-        
     }
 }
     

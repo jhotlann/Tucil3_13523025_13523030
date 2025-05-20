@@ -11,7 +11,6 @@ public class UCS {
             return;
         }
 
-        // System.out.println("Starting UCS class");
         System.out.println("Uniform Cost Search");
         System.out.println("Papan awal: ");
         initBoard.displayBoard();
@@ -27,7 +26,6 @@ public class UCS {
             currentState = pq.poll();
             Papan papanSekarang = currentState.getPapan();
 
-            // Skip if already visited
             String hashString = papanSekarang.hashString();
             if (visited.contains(hashString)) {
                 continue;
@@ -37,20 +35,18 @@ public class UCS {
             // Cek apakah primary piece sudah di exit
             Piece primary = papanSekarang.getPrimaryPiece();
             if (isAtExit(papanSekarang, primary)) {
-                System.out.println("JAWABAN:");
+                System.out.println("\n=== SOLUSI ===");
                 // Display original board
                 initBoard.displayBoard();
                 System.out.println();
                 int langkah = 1;
 
-                // Display solution
                 Papan displayBoard = new Papan(initBoard);
                 for (Gerakan g : currentState.getGerakan()) {
                     
                     System.out.println("\nGerakan "+ langkah + ": "+ g.getPiece().getNama() + "-" + g.getArah());
                     langkah++;
 
-                    // Find the corresponding piece in displayBoard
                     Piece displayPiece = displayBoard.getPieceByName(g.getPiece().getNama());
                     Gerakan displayGerakan = new Gerakan(displayPiece, g.getArah(), g.getJumlahKotak());
                     
@@ -60,13 +56,11 @@ public class UCS {
                     }
                     displayBoard.displayBoard();
                     System.out.println();
-                }
-                
-                System.out.println("Jumlah langkah: " + currentState.getGerakan().size());
+                } 
                 return;
             }
 
-            // Generate all possible moves for each piece
+            // Memeriksa semua gerakan yang mungkin
             for (Piece piece : papanSekarang.getPieces()) {
                 char pieceName = piece.getNama();
                 int row = piece.getBaris();
@@ -76,7 +70,6 @@ public class UCS {
                 char[][] board = papanSekarang.getPapan();
                 
                 if (isHorizontal) {
-                    // Try moving left one step
                     int steps = 1;
                     if (col - steps >= 0 && board[row][col - steps] == '.') {
                         Papan newState = new Papan(papanSekarang);
@@ -97,7 +90,6 @@ public class UCS {
                         }
                     }
                     
-                    // Try moving right one step
                     int rightEnd = col + length - 1;
                     steps = 1;
                     if (rightEnd + steps < papanSekarang.getKolom() && 
@@ -122,7 +114,7 @@ public class UCS {
                         }
                     }
                 } else {
-                    // Try moving up one step
+                  
                     int steps = 1;
                     if (row - steps >= 0 && board[row - steps][col] == '.') {
                         Papan newState = new Papan(papanSekarang);
@@ -142,8 +134,7 @@ public class UCS {
                             }
                         }
                     }
-                    
-                    // Try moving down one step
+          
                     int bottomEnd = row + length - 1;
                     steps = 1;
                     if (bottomEnd + steps < papanSekarang.getBaris() && 

@@ -60,7 +60,6 @@
                     }
                 }
             }
-
             
             return distance + (blockingPieces * 2);
         }
@@ -105,8 +104,6 @@
                     }
                 }
             }
-            
-            
             return distance + (blockingPieces * 2);
         }
     }

@@ -5,7 +5,7 @@ import java.util.*;
 public class AStarSearch {
     private Papan initialState;
     private HashMap<String, Boolean> visited;
-    private HashMap<String, Integer> gScore; // Track path cost to reach each state
+    private HashMap<String, Integer> gScore; // path cost ke setiap state
     private PriorityQueue<Node> openSet;
     private int expandedNodes;
     private Heuristic heuristic;
@@ -37,18 +37,12 @@ public class AStarSearch {
         int initialHeuristic = heuristic.calculate(initialState);
         
         Node startNode = new Node(initialState, null, null, initialHeuristic);
-        startNode.setPathCost(0); // g-score for start node is 0
+        startNode.setPathCost(0); 
         
         String startStateHash = initialState.hashString();
         gScore.put(startStateHash, 0);
         
         openSet.add(startNode);
-        // System.out.println("Heuristik awal (h): " + startNode.getHeuristic());
-        // System.out.println("Path cost awal (g): " + startNode.getPathCost());
-        // System.out.println("Total cost awal (f = g + h): " + 
-        //                   (startNode.getPathCost() + startNode.getHeuristic()));
-        
-        // long startTime = System.currentTimeMillis();
         
         while (!openSet.isEmpty() && expandedNodes < maxIterations) {
             Node currentNode = openSet.poll();
@@ -56,8 +50,7 @@ public class AStarSearch {
             
             expandedNodes++;
             
-            // Penting: jangan lewati node yang sudah dikunjungi jika kita 
-            // menemukan jalur yang lebih baik ke node tersebut
+            // Mengecek node yang sudah dikunjungi, mungkin menemukan jalur yang lebih baik
             if (visited.containsKey(currentStateHash) && 
                 gScore.get(currentStateHash) <= currentNode.getPathCost()) {
                 continue;
@@ -65,18 +58,8 @@ public class AStarSearch {
             
             visited.put(currentStateHash, true);
             
-            // Debug setiap 1000 node di-expand
-            // if (expandedNodes % 1000 == 0) {
-            //     System.out.println("Nodes expanded: " + expandedNodes + 
-            //                       ", Queue size: " + openSet.size() + 
-            //                       ", Visited states: " + visited.size());
-            // }
-            
             if (isSolved(currentNode.getState())) {
-                // long endTime = System.currentTimeMillis();
-                // System.out.println("Solved in " + (endTime - startTime) + " ms");
-                // System.out.println("Nodes expanded: " + expandedNodes);
-                
+             
                 List<Gerakan> solution = reconstructPath(currentNode);
                 printSolution(solution, initialState);
                 return;
@@ -96,8 +79,7 @@ public class AStarSearch {
                 gScore.put(stateHash, tentativeGScore);
                 successor.setPathCost(tentativeGScore);
                 
-                // Penting: tambahkan ke openSet meskipun sudah dikunjungi,
-                // karena kita mungkin menemukan jalur lebih baik
+                // Ditambahkan ke openSet meskipun sudah dikunjungi, mungkin menemukan jalur lebih baik
                 openSet.add(successor);
             }
         }
@@ -122,14 +104,14 @@ public class AStarSearch {
             char[][] board = currentState.getPapan();
             
             if (isHorizontal) {
-                // Bergerak 1 langkah ke kiri
+              
                 int steps = 1;
                 if (col - steps >= 0 && board[row][col - steps] == '.') {
                     Papan newState = new Papan(currentState);
                     Piece newPiece = newState.getPieceByName(pieceName);
                     
                     if (newPiece == null) {
-                        System.out.println("Error: Piece " + pieceName + " not found in new state.");
+                        System.out.println("Error: Piece " + pieceName + " tidak ditemukan di state.");
                         continue;
                     }
                     
@@ -144,7 +126,6 @@ public class AStarSearch {
                     }
                 }
                 
-                // Bergerak 1 langkah ke kanan
                 int rightEnd = col + length - 1;
                 steps = 1;
                 if (rightEnd + steps < currentState.getKolom() && 
@@ -155,7 +136,7 @@ public class AStarSearch {
                     Piece newPiece = newState.getPieceByName(pieceName);
                     
                     if (newPiece == null) {
-                        System.out.println("Error: Piece " + pieceName + " not found in new state.");
+                        System.out.println("Error: Piece " + pieceName + " tidak ditemukan di state.");
                         continue;
                     }
                     
@@ -170,14 +151,14 @@ public class AStarSearch {
                     }
                 }
             } else {
-                // Bergerak 1 langkah ke atas
+                
                 int steps = 1;
                 if (row - steps >= 0 && board[row - steps][col] == '.') {
                     Papan newState = new Papan(currentState);
                     Piece newPiece = newState.getPieceByName(pieceName);
                     
                     if (newPiece == null) {
-                        System.out.println("Error: Piece " + pieceName + " not found in new state.");
+                        System.out.println("Error: Piece " + pieceName + " tidak ditemukan di state.");
                         continue;
                     }
                     
@@ -191,8 +172,7 @@ public class AStarSearch {
                         successors.add(successor);
                     }
                 }
-                
-                // Bergerak 1 langkah ke bawah
+        
                 int bottomEnd = row + length - 1;
                 steps = 1;
                 if (bottomEnd + steps < currentState.getBaris() && 
@@ -203,7 +183,7 @@ public class AStarSearch {
                     Piece newPiece = newState.getPieceByName(pieceName);
                     
                     if (newPiece == null) {
-                        System.out.println("Error: Piece " + pieceName + " not found in new state.");
+                        System.out.println("Error: Piece " + pieceName + " tidak ditemukan di state.");
                         continue;
                     }
                     
@@ -267,12 +247,12 @@ public class AStarSearch {
     
     private void printSolution(List<Gerakan> solution, Papan initialState) {
         if (solution.isEmpty()) {
-            System.out.println("No moves needed - puzzle is already solved!");
+            System.out.println("Puzzle sudah diselesaikan!");
             return;
         }
         
-        System.out.println("\n=== SOLUTION ===");
-        System.out.println("Solusi ditemukan!Jumlah langkah: " + solution.size());
+        System.out.println("\n=== SOLUSI ===");
+        
         Papan currentState = new Papan(initialState); 
         
         for (int i = 0; i < solution.size(); i++) {
@@ -289,8 +269,7 @@ public class AStarSearch {
             
             Gerakan currentMove = new Gerakan(currentPiece, direction, steps);
             
-            System.out.println("\nGerakan " + (i+1) + ": " + currentPiece.getNama() + 
-                              "-" + direction);
+            System.out.println("\nGerakan " + (i+1) + ": " + currentPiece.getNama() + "-" + direction);
             
             boolean moveSuccess = currentState.movePiece(currentMove);
             if (!moveSuccess) {
@@ -298,10 +277,6 @@ public class AStarSearch {
             }
             
             currentState.displayBoard();
-            
-            // int heuristicValue = heuristic.calculate(currentState);
-            // System.out.println("Heuristic value after move: " + heuristicValue);
         }
-        // System.out.println("\nPuzzle solved!");
     }
 }
