@@ -24,7 +24,7 @@ public class AStarSearch {
         System.out.println("Inisialisasi A* Search");
         System.out.println("Papan awal: ");
         initialState.displayBoard();
-        
+        solve();
     }
     
     public void solve() {
@@ -37,12 +37,12 @@ public class AStarSearch {
         gScore.put(startStateHash, 0);
         
         openSet.add(startNode);
-        System.out.println("Heuristik awal (h): " + startNode.getHeuristic());
-        System.out.println("Path cost awal (g): " + startNode.getPathCost());
-        System.out.println("Total cost awal (f = g + h): " + 
-                          (startNode.getPathCost() + startNode.getHeuristic()));
+        // System.out.println("Heuristik awal (h): " + startNode.getHeuristic());
+        // System.out.println("Path cost awal (g): " + startNode.getPathCost());
+        // System.out.println("Total cost awal (f = g + h): " + 
+        //                   (startNode.getPathCost() + startNode.getHeuristic()));
         
-        long startTime = System.currentTimeMillis();
+        // long startTime = System.currentTimeMillis();
         
         while (!openSet.isEmpty() && expandedNodes < maxIterations) {
             Node currentNode = openSet.poll();
@@ -60,16 +60,16 @@ public class AStarSearch {
             visited.put(currentStateHash, true);
             
             // Debug setiap 1000 node di-expand
-            if (expandedNodes % 1000 == 0) {
-                System.out.println("Nodes expanded: " + expandedNodes + 
-                                  ", Queue size: " + openSet.size() + 
-                                  ", Visited states: " + visited.size());
-            }
+            // if (expandedNodes % 1000 == 0) {
+            //     System.out.println("Nodes expanded: " + expandedNodes + 
+            //                       ", Queue size: " + openSet.size() + 
+            //                       ", Visited states: " + visited.size());
+            // }
             
             if (isSolved(currentNode.getState())) {
-                long endTime = System.currentTimeMillis();
-                System.out.println("Solved in " + (endTime - startTime) + " ms");
-                System.out.println("Nodes expanded: " + expandedNodes);
+                // long endTime = System.currentTimeMillis();
+                // System.out.println("Solved in " + (endTime - startTime) + " ms");
+                // System.out.println("Nodes expanded: " + expandedNodes);
                 
                 List<Gerakan> solution = reconstructPath(currentNode);
                 printSolution(solution, initialState);
@@ -143,7 +143,7 @@ public class AStarSearch {
                 steps = 1;
                 if (rightEnd + steps < currentState.getKolom() && 
                     (board[row][rightEnd + steps] == '.' || 
-                     (piece.isUtama() && row == currentState.getBarisExit() && rightEnd + steps == currentState.getKolomExit()))) {
+                     (piece.isUtama() && row == currentState.getExitRow() && rightEnd + steps == currentState.getExitCol()))) {
                     
                     Papan newState = new Papan(currentState);
                     Piece newPiece = newState.getPieceByName(pieceName);
@@ -191,7 +191,7 @@ public class AStarSearch {
                 steps = 1;
                 if (bottomEnd + steps < currentState.getBaris() && 
                     (board[bottomEnd + steps][col] == '.' || 
-                     (piece.isUtama() && bottomEnd + steps == currentState.getBarisExit() && col == currentState.getKolomExit()))) {
+                     (piece.isUtama() && bottomEnd + steps == currentState.getExitRow() && col == currentState.getExitCol()))) {
                     
                     Papan newState = new Papan(currentState);
                     Piece newPiece = newState.getPieceByName(pieceName);
@@ -222,8 +222,8 @@ public class AStarSearch {
             return false;
         }
         
-        int exitRow = state.getBarisExit();
-        int exitCol = state.getKolomExit();
+        int exitRow = state.getExitRow();
+        int exitCol = state.getExitCol();
         
         if (primaryPiece.isHorizontal()) {
             int pieceRow = primaryPiece.getBaris();
