@@ -188,6 +188,7 @@ public class Papan{
         int oldBaris = p.getBaris();
         int oldKolom = p.getKolom();
 
+        
         if (g.getArah() == "kanan" || g.getArah() == "kiri"){
             int jarak = g.getJumlahKotak();
             if (g.getArah() == "kiri"){
@@ -200,7 +201,7 @@ public class Papan{
             int jarak = g.getJumlahKotak();
 
             if (g.getArah() == "atas"){
-                jarak *= (-1) * g.getJumlahKotak();
+                jarak *= (-1);
             }
             p.set_position(oldBaris + jarak, oldKolom);
         }
