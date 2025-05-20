@@ -10,8 +10,8 @@
                 return Integer.MAX_VALUE; 
             }
             
-            int exitRow = state.getBarisExit();
-            int exitCol = state.getKolomExit();
+            int exitRow = state.getExitRow();
+            int exitCol = state.getExitCol();
             
             if (primaryPiece.isHorizontal()) {
                 return calculateHorizontalPieceHeuristic(state, primaryPiece, exitRow, exitCol);
