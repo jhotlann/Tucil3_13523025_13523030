@@ -50,16 +50,25 @@ public class AStarSearch {
             
             expandedNodes++;
             
-            if (visited.containsKey(currentStateHash)) {
+            // Penting: jangan lewati node yang sudah dikunjungi jika kita 
+            // menemukan jalur yang lebih baik ke node tersebut
+            if (visited.containsKey(currentStateHash) && 
+                gScore.get(currentStateHash) <= currentNode.getPathCost()) {
                 continue;
             }
             
             visited.put(currentStateHash, true);
             
+            // Debug setiap 1000 node di-expand
+            if (expandedNodes % 1000 == 0) {
+                System.out.println("Nodes expanded: " + expandedNodes + 
+                                  ", Queue size: " + openSet.size() + 
+                                  ", Visited states: " + visited.size());
+            }
+            
             if (isSolved(currentNode.getState())) {
-                // long endTime = System.currentTimeMillis();
-                // long timeTaken = endTime - startTime;
-                // System.out.println("Solved in " + timeTaken + " ms");
+                long endTime = System.currentTimeMillis();
+                System.out.println("Solved in " + (endTime - startTime) + " ms");
                 System.out.println("Nodes expanded: " + expandedNodes);
                 
                 List<Gerakan> solution = reconstructPath(currentNode);
@@ -73,6 +82,7 @@ public class AStarSearch {
                 String stateHash = successor.getState().hashString();
                 int tentativeGScore = currentNode.getPathCost() + 1; // Each move costs 1
                 
+                // Jika state ini sudah dikunjungi dengan jalur yang lebih baik, skip
                 if (gScore.containsKey(stateHash) && tentativeGScore >= gScore.get(stateHash)) {
                     continue;
                 }
@@ -80,9 +90,9 @@ public class AStarSearch {
                 gScore.put(stateHash, tentativeGScore);
                 successor.setPathCost(tentativeGScore);
                 
-                if (!visited.containsKey(stateHash)) {
-                    openSet.add(successor);
-                }
+                // Penting: tambahkan ke openSet meskipun sudah dikunjungi,
+                // karena kita mungkin menemukan jalur lebih baik
+                openSet.add(successor);
             }
         }
         
@@ -106,16 +116,12 @@ public class AStarSearch {
             char[][] board = currentState.getPapan();
             
             if (isHorizontal) {
-                
-                for (int steps = 1; col - steps >= 0; steps++) {
-                    
-                    if (board[row][col - steps] != '.') {
-                        break; 
-                    }
-                    
+                // Bergerak 1 langkah ke kiri
+                int steps = 1;
+                if (col - steps >= 0 && board[row][col - steps] == '.') {
                     Papan newState = new Papan(currentState);
-                   
                     Piece newPiece = newState.getPieceByName(pieceName);
+                    
                     if (newPiece == null) {
                         System.out.println("Error: Piece " + pieceName + " not found in new state.");
                         continue;
@@ -126,33 +132,22 @@ public class AStarSearch {
                     
                     if (isValid) {
                         String stateHash = newState.hashString();
-                       
-                        if (visited.containsKey(stateHash)) {
-                            continue;
-                        }
-                        
                         int heuristicValue = heuristic.calculate(newState);
-                        
                         Node successor = new Node(newState, node, move, heuristicValue);
                         successors.add(successor);
-                    } else {
-                        break;
                     }
                 }
                 
-              
+                // Bergerak 1 langkah ke kanan
                 int rightEnd = col + length - 1;
-                for (int steps = 1; rightEnd + steps < currentState.getKolom(); steps++) {
-                   
-                    if (board[row][rightEnd + steps] != '.' && 
-                        !(piece.isUtama() && row == currentState.getBarisExit() && 
-                          rightEnd + steps == currentState.getKolomExit())) {
-                        break; 
-                    }
+                steps = 1;
+                if (rightEnd + steps < currentState.getKolom() && 
+                    (board[row][rightEnd + steps] == '.' || 
+                     (piece.isUtama() && row == currentState.getBarisExit() && rightEnd + steps == currentState.getKolomExit()))) {
                     
                     Papan newState = new Papan(currentState);
-                   
                     Piece newPiece = newState.getPieceByName(pieceName);
+                    
                     if (newPiece == null) {
                         System.out.println("Error: Piece " + pieceName + " not found in new state.");
                         continue;
@@ -163,30 +158,18 @@ public class AStarSearch {
 
                     if (isValid) {
                         String stateHash = newState.hashString();
-                       
-                        if (visited.containsKey(stateHash)) {
-                            continue;
-                        }
-                        
                         int heuristicValue = heuristic.calculate(newState);
-                        
                         Node successor = new Node(newState, node, move, heuristicValue);
                         successors.add(successor);
-                    } else {
-                        break;
                     }
                 }
             } else {
-                
-                for (int steps = 1; row - steps >= 0; steps++) {
-                    
-                    if (board[row - steps][col] != '.') {
-                        break; 
-                    }
-                    
+                // Bergerak 1 langkah ke atas
+                int steps = 1;
+                if (row - steps >= 0 && board[row - steps][col] == '.') {
                     Papan newState = new Papan(currentState);
-                  
                     Piece newPiece = newState.getPieceByName(pieceName);
+                    
                     if (newPiece == null) {
                         System.out.println("Error: Piece " + pieceName + " not found in new state.");
                         continue;
@@ -197,32 +180,22 @@ public class AStarSearch {
                     
                     if (isValid) {
                         String stateHash = newState.hashString();
-                        
-                        if (visited.containsKey(stateHash)) {
-                            continue;
-                        }
-                        
                         int heuristicValue = heuristic.calculate(newState);
-                        
                         Node successor = new Node(newState, node, move, heuristicValue);
                         successors.add(successor);
-                    } else {
-                        break;
                     }
                 }
                 
+                // Bergerak 1 langkah ke bawah
                 int bottomEnd = row + length - 1;
-                for (int steps = 1; bottomEnd + steps < currentState.getBaris(); steps++) {
-                  
-                    if (board[bottomEnd + steps][col] != '.' && 
-                        !(piece.isUtama() && bottomEnd + steps == currentState.getBarisExit() && 
-                          col == currentState.getKolomExit())) {
-                        break; 
-                    }
+                steps = 1;
+                if (bottomEnd + steps < currentState.getBaris() && 
+                    (board[bottomEnd + steps][col] == '.' || 
+                     (piece.isUtama() && bottomEnd + steps == currentState.getBarisExit() && col == currentState.getKolomExit()))) {
                     
                     Papan newState = new Papan(currentState);
-                    
                     Piece newPiece = newState.getPieceByName(pieceName);
+                    
                     if (newPiece == null) {
                         System.out.println("Error: Piece " + pieceName + " not found in new state.");
                         continue;
@@ -233,17 +206,9 @@ public class AStarSearch {
                     
                     if (isValid) {
                         String stateHash = newState.hashString();
-                        
-                        if (visited.containsKey(stateHash)) {
-                            continue;
-                        }
-                        
                         int heuristicValue = heuristic.calculate(newState);
-                        
                         Node successor = new Node(newState, node, move, heuristicValue);
                         successors.add(successor);
-                    } else {
-                        break; 
                     }
                 }
             }

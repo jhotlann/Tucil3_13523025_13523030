@@ -89,12 +89,9 @@ public class GreedyBestFirstSearch {
            
             if (isHorizontal) {
                 
-                for (int steps = 1; col - steps >= 0; steps++) {
-                   
-                    if (board[row][col - steps] != '.') {
-                        break; 
-                    }
-                    
+                
+                int steps = 1;
+                if (col - steps >= 0 && board[row][col - steps] == '.') {
                     Papan newState = new Papan(currentState);
                     
                     Piece newPiece = newState.getPieceByName(pieceName);
@@ -107,33 +104,24 @@ public class GreedyBestFirstSearch {
                     boolean isValid = newState.movePiece(move);
                     
                     if (isValid) {
-                     
                         String stateHash = newState.hashString();
                         if (!visited.containsKey(stateHash)) {
-                        
                             int heuristicValue = heuristic.calculate(newState);
-                            
-                            
                             Node successor = new Node(newState, node, move, heuristicValue);
                             successors.add(successor);
                         }
-                    } else {
-                        break; 
                     }
                 }
                 
                 
                 int rightEnd = col + length - 1;
-                for (int steps = 1; rightEnd + steps < currentState.getKolom(); steps++) {
-                 
-                    if (board[row][rightEnd + steps] != '.' && 
-                        !(piece.isUtama() && row == currentState.getBarisExit() && 
-                          rightEnd + steps == currentState.getKolomExit())) {
-                        break; 
-                    }
+                steps = 1;
+                if (rightEnd + steps < currentState.getKolom() && 
+                    (board[row][rightEnd + steps] == '.' || 
+                     (piece.isUtama() && row == currentState.getBarisExit() && rightEnd + steps == currentState.getKolomExit()))) {
                     
-                    Papan newState = new Papan(currentState); 
-                 
+                    Papan newState = new Papan(currentState);
+                    
                     Piece newPiece = newState.getPieceByName(pieceName);
                     if (newPiece == null) {
                         System.out.println("Error: Piece " + pieceName + " not found in new state.");
@@ -144,31 +132,19 @@ public class GreedyBestFirstSearch {
                     boolean isValid = newState.movePiece(move);
 
                     if (isValid) {
-                        
                         String stateHash = newState.hashString();
                         if (!visited.containsKey(stateHash)) {
-                         
                             int heuristicValue = heuristic.calculate(newState);
-                            
-                            
                             Node successor = new Node(newState, node, move, heuristicValue);
                             successors.add(successor);
                         }
-                    } else {
-                        break; 
                     }
                 }
             } else {
                 
-                
-               
-                for (int steps = 1; row - steps >= 0; steps++) {
-                    
-                    if (board[row - steps][col] != '.') {
-                        break; 
-                    }
-                    
-                    Papan newState = new Papan(currentState); 
+                int steps = 1;
+                if (row - steps >= 0 && board[row - steps][col] == '.') {
+                    Papan newState = new Papan(currentState);
                     
                     Piece newPiece = newState.getPieceByName(pieceName);
                     if (newPiece == null) {
@@ -180,32 +156,23 @@ public class GreedyBestFirstSearch {
                     boolean isValid = newState.movePiece(move);
                     
                     if (isValid) {
-                        
                         String stateHash = newState.hashString();
                         if (!visited.containsKey(stateHash)) {
-                            
                             int heuristicValue = heuristic.calculate(newState);
-                            
-                            
                             Node successor = new Node(newState, node, move, heuristicValue);
                             successors.add(successor);
                         }
-                    } else {
-                        break; 
                     }
                 }
                 
                 
                 int bottomEnd = row + length - 1;
-                for (int steps = 1; bottomEnd + steps < currentState.getBaris(); steps++) {
+                steps = 1;
+                if (bottomEnd + steps < currentState.getBaris() && 
+                    (board[bottomEnd + steps][col] == '.' || 
+                     (piece.isUtama() && bottomEnd + steps == currentState.getBarisExit() && col == currentState.getKolomExit()))) {
                     
-                    if (board[bottomEnd + steps][col] != '.' && 
-                        !(piece.isUtama() && bottomEnd + steps == currentState.getBarisExit() && 
-                          col == currentState.getKolomExit())) {
-                        break; 
-                    }
-                    
-                    Papan newState = new Papan(currentState); 
+                    Papan newState = new Papan(currentState);
                     
                     Piece newPiece = newState.getPieceByName(pieceName);
                     if (newPiece == null) {
@@ -217,17 +184,12 @@ public class GreedyBestFirstSearch {
                     boolean isValid = newState.movePiece(move);
                     
                     if (isValid) {
-                        
                         String stateHash = newState.hashString();
                         if (!visited.containsKey(stateHash)) {
-                           
                             int heuristicValue = heuristic.calculate(newState);
-                            
                             Node successor = new Node(newState, node, move, heuristicValue);
                             successors.add(successor);
                         }
-                    } else {
-                        break;
                     }
                 }
             }
