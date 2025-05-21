@@ -14,6 +14,15 @@ public class Main {
         System.out.println(filePath);
 
         Papan tes = Load.Load_Papan(filePath);
+        if (tes == null) {
+            System.out.println("Gagal memuat papan dari file. Pastikan file ada dan format benar.");
+            return;
+        }
+
+        if (!tes.isPapanValid()){
+            System.out.println("Papan tidak valid. Silakan periksa file input.");
+            return;
+        }
         Papan copy = new Papan(tes);
 
         System.out.println("Strategi pencarian yang tersedia:");
@@ -33,15 +42,35 @@ public class Main {
         if (pilihan == 1) {
             UCS ucs = new UCS(tes);
             List<Gerakan> steps = ucs.solve();
-            GUI gui = new GUI(copy,steps, "UCS");
+            if (steps == null || steps.isEmpty()) {
+                System.out.println("Tidak ada solusi ditemukan untuk input yang diberikan.");
+                return;
+            }
+            else{
+                GUI gui = new GUI(copy,steps, "UCS");
+
+            }
         } else if (pilihan == 2) {
             GreedyBestFirstSearch greedy = new GreedyBestFirstSearch(tes);
             List<Gerakan> steps = greedy.solve();
-            GUI gui = new GUI(tes,steps, "GBFS");
+            if (steps == null || steps.isEmpty()) {
+                System.out.println("Tidak ada solusi ditemukan untuk input yang diberikan.");
+                return;
+            }
+            else{
+                GUI gui = new GUI(tes,steps, "GBFS");
+
+            }
         } else if (pilihan == 3) {
             AStarSearch astar = new AStarSearch(tes);
             List<Gerakan> steps = astar.solve();
-            GUI gui = new GUI(tes,steps, "AStar");
+            if (steps == null || steps.isEmpty()) {
+                System.out.println("Tidak ada solusi ditemukan untuk input yang diberikan.");
+                return;
+            }
+            else{
+                GUI gui = new GUI(tes,steps, "AStar");
+            }
         }
     }
 }
