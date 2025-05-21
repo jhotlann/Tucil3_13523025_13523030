@@ -30,6 +30,10 @@ public class MatrixInputGUI extends JFrame {
             }
         }
 
+        // Highlight the exit cell
+        cells[rowExit][colExit].setBackground(Color.YELLOW); // or any color you want
+
+
         // Button listener
         solveButton.addActionListener(e -> {
             char[][] matrix = new char[rows][cols];
