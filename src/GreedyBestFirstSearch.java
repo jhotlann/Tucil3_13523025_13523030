@@ -39,6 +39,7 @@ public class GreedyBestFirstSearch {
 
             if (isSolved(currentNode.getState())) {
                 List<Gerakan> solution = reconstructPath(currentNode);
+                System.out.println("Jumlah node yang diperiksa: " + expandedNodes);
                 return solution;
             }
   
