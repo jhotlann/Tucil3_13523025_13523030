@@ -36,13 +36,17 @@ public class UCS {
 
             if (isAtExit2(papanCopy, papanCopy.getPrimaryPiece(), papanCopy.getExitRow(), papanCopy.getExitCol())){
                 System.out.println("JAWABAN:");
-                initBoard.displayBoard();
                 System.out.println("");
-
+                int i = 0;
+                papanCopy = new Papan(initBoard);
+                papanCopy.displayBoard();
+                System.out.println("");
                 for (Gerakan g : current_state.getGerakan()){
-                    initBoard.movePiece(g);
-                    initBoard.displayBoard();
+                    System.out.println("Gerakan " + (i+1) + ": " + g.getPiece().getNama() + "-" + g.getArah());
+                    papanCopy.movePiece(g);
+                    papanCopy.displayBoard();
                     System.out.println("");
+                    i++;
                 }
                 System.out.println("Exit from loop");
                 System.out.printf("Baris: %d  ", papanCopy.getPrimaryPiece().getBaris());
@@ -130,7 +134,7 @@ public class UCS {
                 }
             }
         }
-        System.out.println("no solution");
+        System.out.println("Solusi tidak ditemukan.");
         return null;
     }
 
