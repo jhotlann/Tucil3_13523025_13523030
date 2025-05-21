@@ -40,36 +40,56 @@ public class Main {
         }
         
         if (pilihan == 1) {
+            long startTime = System.nanoTime();
+
             UCS ucs = new UCS(tes);
             List<Gerakan> steps = ucs.solve();
+            long endTime = System.nanoTime();
+            long duration = (endTime - startTime) / 1000000; // in milliseconds
+
             if (steps == null || steps.isEmpty()) {
                 System.out.println("Tidak ada solusi ditemukan untuk input yang diberikan.");
+                System.out.println("Waktu eksekusi: " + duration + " ms");
                 return;
             }
             else{
                 GUI gui = new GUI(copy,steps, "UCS");
-
+                System.out.println("Waktu eksekusi: " + duration + " ms");
             }
+
         } else if (pilihan == 2) {
+                        long startTime = System.nanoTime();
+
             GreedyBestFirstSearch greedy = new GreedyBestFirstSearch(tes);
             List<Gerakan> steps = greedy.solve();
+             long endTime = System.nanoTime();
+            long duration = (endTime - startTime) / 1000000; // in milliseconds
             if (steps == null || steps.isEmpty()) {
                 System.out.println("Tidak ada solusi ditemukan untuk input yang diberikan.");
+                System.out.println("Waktu eksekusi: " + duration + " ms");
                 return;
             }
             else{
                 GUI gui = new GUI(tes,steps, "GBFS");
+                System.out.println("Waktu eksekusi: " + duration + " ms");
 
             }
+
         } else if (pilihan == 3) {
+                        long startTime = System.nanoTime();
+
             AStarSearch astar = new AStarSearch(tes);
             List<Gerakan> steps = astar.solve();
+             long endTime = System.nanoTime();
+            long duration = (endTime - startTime) / 1000000; // in milliseconds
             if (steps == null || steps.isEmpty()) {
                 System.out.println("Tidak ada solusi ditemukan untuk input yang diberikan.");
+                System.out.println("Waktu eksekusi: " + duration + " ms");
                 return;
             }
             else{
                 GUI gui = new GUI(tes,steps, "AStar");
+                System.out.println("Waktu eksekusi: " + duration + " ms");
             }
         }
     }
