@@ -21,9 +21,11 @@ public class UCS {
 
         State current_state = new State(papanCopy, step, 0);
         pq.add(current_state);
+        int count = 0;
 
         while (!pq.isEmpty()) {
             current_state = pq.poll();
+            count++;
 
             papanCopy = new Papan(current_state.getPapan());
         
@@ -48,9 +50,7 @@ public class UCS {
                     System.out.println("");
                     i++;
                 }
-                System.out.println("Exit from loop");
-                System.out.printf("Baris: %d  ", papanCopy.getPrimaryPiece().getBaris());
-                System.out.printf("Kolom: %d\n", papanCopy.getPrimaryPiece().getKolom());
+                System.out.println("Banyak node diperiksa: " + count);
                 return current_state.getGerakan();
             } 
 
@@ -135,6 +135,8 @@ public class UCS {
             }
         }
         System.out.println("Solusi tidak ditemukan.");
+        System.out.println("Banyak node diperiksa: " + count);
+
         return null;
     }
 
