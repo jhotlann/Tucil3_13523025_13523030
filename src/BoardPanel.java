@@ -38,7 +38,16 @@ public class BoardPanel extends JPanel{
         List<Piece> pieces = board.getPieces();
 
         int cellsize = Math.min(getWidth() / board.getKolom(), getHeight() / board.getBaris());
+        int exitRow = board.getExitRow();
+        int exitCol = board.getExitCol();
         
+        g.setColor(Color.BLACK);
+        int x = exitCol * cellsize;
+        int y = exitRow * cellsize;
+
+        g.drawLine(x, y, x + cellsize, y + cellsize);
+        g.drawLine(x + cellsize, y, x, y + cellsize);
+
         for (Piece p : pieces){
             if (p.isUtama()){
                 color = Color.red;
