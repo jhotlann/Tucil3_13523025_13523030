@@ -34,3 +34,6 @@ Pindah directory ke src
    ```
     java .\MainGUI.java 
    ```
+
+
+Dibuat oleh Joel Hotlan Haris Siahaan - 13523025 dan Julius Arthur - 13523030
