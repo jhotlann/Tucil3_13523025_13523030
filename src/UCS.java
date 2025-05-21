@@ -25,7 +25,6 @@ public class UCS {
 
         while (!pq.isEmpty()) {
             current_state = pq.poll();
-            count++;
 
             papanCopy = new Papan(current_state.getPapan());
         
@@ -73,6 +72,8 @@ public class UCS {
                             State newState = new State(tempBoard, newSteps, current_state.getSkor() + 1);
                             if (!visited.contains(tempBoard.hashString())) {
                                 pq.add(newState);
+                                count++;
+
                             }
                         } else {
                             break;
@@ -90,6 +91,7 @@ public class UCS {
                             State newState = new State(tempBoard, newSteps, current_state.getSkor() + 1);
                             if (!visited.contains(tempBoard.hashString())) {
                                 pq.add(newState);
+                                count++;
                             }
                         } else {
                             break;
@@ -108,6 +110,7 @@ public class UCS {
                             State newState = new State(tempBoard, newSteps, current_state.getSkor() + 1);
                             if (!visited.contains(tempBoard.hashString())) {
                                 pq.add(newState);
+                                count++;
                             }
                         } else {
                             break;
@@ -125,6 +128,7 @@ public class UCS {
                             State newState = new State(tempBoard, newSteps, current_state.getSkor() + 1);
                             if (!visited.contains(tempBoard.hashString())) {
                                 pq.add(newState);
+                                count++;
                             }
                         } else {
                             break;
