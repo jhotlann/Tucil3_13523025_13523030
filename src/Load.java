@@ -41,8 +41,12 @@ public class Load {
                 }
                 line = br.readLine();
             }
-            
             if (kolomConfig != kolom){//Exit at col 0 or last col
+                if (buf.size() != baris){
+                    System.out.println("Jumlah baris tidak sesuai");
+                    br.close();
+                    return null;
+                }
                 if (buf.get(0).charAt(0) == 'K' || buf.get(0).charAt(0) == ' '){//Exit at first col
                     kolomK = 0;
                     for (int i = 0; i < baris; i++){
@@ -70,6 +74,11 @@ public class Load {
                 }
             }
             else{
+                if (kolomConfig != kolom){
+                    System.out.println("Jumlah kolom tidak sesuai");
+                    br.close();
+                    return null;
+                }
                 line = buf.get(0);
                 if (line.contains("K")){//Exit at first row
                     barisK = 0;
@@ -107,7 +116,13 @@ public class Load {
             System.out.println("\nPapan:");
             p.displayBoard();
             System.out.println("=========================\n");
-            
+            if (p.getPrimaryPiece() == null){
+                System.out.println("Papan tidak valid");
+                return null;
+            }
+            else{
+                // System.out.println("Papan valid");
+            }
             return p;
         }
         catch (Exception e){
